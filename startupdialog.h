@@ -15,17 +15,23 @@ public:
     startupdialog(QWidget *parent = nullptr);
     ~startupdialog();
 
+private slots:
+    void updateComboBox();
+
 private:
     QVector<QString> serialPorts;
 
     void createLayout();
     void detectSerialPorts();
+    void createConnection();
 
     QLabel *titleLabel;
     QLabel *warningLabel;
     QComboBox *serialPortsList;
     QPushButton *okButton;
     QPushButton *cancelButton;
+
+    QTimer *serialCheckTimer;
 
 };
 

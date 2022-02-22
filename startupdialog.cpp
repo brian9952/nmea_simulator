@@ -8,9 +8,11 @@ startupdialog::startupdialog(QWidget *parent) : QDialog(parent)
 {
     detectSerialPorts();
     createLayout();
+    createConnection();
 }
 
 void startupdialog::detectSerialPorts(){
+    serialPorts.clear();
     QSerialPortInfo *serialInfo = new QSerialPortInfo;
     QList<QSerialPortInfo> sports;
 
@@ -26,18 +28,20 @@ void startupdialog::detectSerialPorts(){
 void startupdialog::createLayout(){
 
     titleLabel = new QLabel(tr("Choose serial ports"));
-    warningLabel = new QLabel(tr("Serial ports not found!"));
+    warningLabel = new QLabel(tr("Warning: serial ports not found!"));
     serialPortsList = new QComboBox;
 
     okButton = new QPushButton(tr("OK"));
     cancelButton = new QPushButton(tr("Cancel"));
 
     QHBoxLayout *confLayout = new QHBoxLayout;
+    confLayout->addSpacing(50);
     confLayout->addWidget(okButton);
     confLayout->addWidget(cancelButton);
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(titleLabel);
+    mainLayout->addSpacing(10);
 
     if(serialPorts.length() == 0){
         mainLayout->addWidget(warningLabel);
@@ -48,10 +52,32 @@ void startupdialog::createLayout(){
     }
 
     mainLayout->addWidget(serialPortsList);
+    mainLayout->addSpacing(20);
     mainLayout->addLayout(confLayout);
 
     setLayout(mainLayout);
 
+}
+
+void startupdialog::createConnection(){
+    // check if port is open
+    serialCheckTimer = new QTimer(this);
+    connect(serialCheckTimer, SIGNAL(timeout()),
+            this, SLOT(updateComboBox()));
+    serialCheckTimer->start(10000);
+}
+
+void startupdialog::updateComboBox(){
+    detectSerialPorts();
+    serialPortsList->clear();
+    if(serialPorts.length() == 0){
+        warningLabel->setVisible(true);
+    }else{
+        for(int i = 0;i < serialPorts.length(); i++){
+            serialPortsList->addItem(serialPorts[i]);
+        }
+        warningLabel->setVisible(false);
+    }
 }
 
 startupdialog::~startupdialog(){
