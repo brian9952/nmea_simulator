@@ -14,6 +14,7 @@ class QTabWidget;
 class QLabel;
 class QCheckBox;
 class QTabWidget;
+class QStatusBar;
 
 class MainWindow : public QMainWindow
 {
@@ -40,6 +41,7 @@ private:
     QTabWidget *tabWidget;
     QPlainTextEdit *sendSerialConsole;
     QPlainTextEdit *receiveSerialConsole;
+    QStatusBar *statusBar;
 
     void createLayout();
 

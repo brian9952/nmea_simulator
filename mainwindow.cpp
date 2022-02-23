@@ -63,9 +63,13 @@ void MainWindow::createLayout(){
     innerLayout->addLayout(consoleInnerLayout);
     innerLayout->addLayout(nmeaDataLayout);
 
+    statusBar = new QStatusBar;
+    statusBar->showMessage("Ready");
+
     QVBoxLayout *mainLayout = new QVBoxLayout;
-    mainLayout->addWidget(toolbar);
+    mainLayout->setMenuBar(toolbar);
     mainLayout->addLayout(innerLayout);
+    mainLayout->addWidget(statusBar);
 
     window->setLayout(mainLayout);
     setCentralWidget(window);
