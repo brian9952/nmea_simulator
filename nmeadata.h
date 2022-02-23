@@ -9,6 +9,7 @@ public:
     nmeaData();
 
     struct AAM { // Waypoint Arrival Alarm
+        bool isClicked = false;
         bool isOn = false;
         int id = 1;
         char status1;
@@ -20,6 +21,7 @@ public:
     }; AAM *aam = new AAM;
 
     struct ALM { // GPS Almanac Data
+        bool isClicked = false;
         bool isOn = false;
         int id = 2;
         int numberOfMessages;
@@ -40,6 +42,7 @@ public:
     }; ALM *alm = new ALM;
 
     struct RSA { // Rudder Sensor Angle
+        bool isClicked = false;
         bool isOn = false;
         int id = 3;
         QString starboardRudderSensor;
@@ -50,6 +53,7 @@ public:
     }; RSA *rsa = new RSA;
 
     struct RTE { // Routes
+        bool isClicked = false;
         bool isOn = false;
         int id = 4;
         int numberOfRE;

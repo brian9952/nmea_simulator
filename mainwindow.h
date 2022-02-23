@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+//#include "nmeadata.cpp"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -12,6 +13,7 @@ class QPlainTextEdit;
 class QTabWidget;
 class QLabel;
 class QCheckBox;
+class QTabWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -22,10 +24,26 @@ public:
     ~MainWindow();
 
 private:
+
+    // data structures
+    //struct DataFrontend {
+    //    QVector<QLabel> labelData;
+    //    QVector<QCheckBox> checkboxData;
+    //};
+    //DataFrontend *dataFrontend = new DataFrontend;
+
+    QVector<QWidget*> labelData;
+    QVector<QWidget*> checkboxData;
+
     QWidget *window;
     QToolBar *toolbar;
+    QTabWidget *tabWidget;
+    QPlainTextEdit *sendSerialConsole;
+    QPlainTextEdit *receiveSerialConsole;
 
     void createLayout();
+
+    //nmeaData *data;
 
     Ui::MainWindow *ui;
 };
