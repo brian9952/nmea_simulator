@@ -27,22 +27,26 @@ public:
 private:
 
     // data structures
-    //struct DataFrontend {
-    //    QVector<QLabel> labelData;
-    //    QVector<QCheckBox> checkboxData;
-    //};
-    //DataFrontend *dataFrontend = new DataFrontend;
+    struct DataFrontend {
+        QLabel *labelData;
+        QCheckBox *checkboxData;
+    };
+    QVector<DataFrontend*> dataFrontend;
 
-    QVector<QWidget*> labelData;
-    QVector<QWidget*> checkboxData;
+    // main widgets & layouts
+    QWidget *mainWidget;
+    QWidget *mainWindow;
 
-    QWidget *window;
-    QToolBar *toolbar;
+    // objects
+    QMenuBar *menuBar;
     QTabWidget *tabWidget;
     QPlainTextEdit *sendSerialConsole;
     QPlainTextEdit *receiveSerialConsole;
     QStatusBar *statusBar;
 
+    void createMenuBar();
+    void createCentralWindow();
+    void createStatusBar();
     void createLayout();
 
     //nmeaData *data;
