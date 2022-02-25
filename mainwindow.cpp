@@ -14,6 +14,9 @@ MainWindow::MainWindow(QWidget *parent)
     createCentralWindow();
     createStatusBar();
     createLayout();
+
+    data = new nmeaData;
+    createNMEAWidgets();
 }
 
 void MainWindow::createMenuBar(){
@@ -26,11 +29,6 @@ void MainWindow::createMenuBar(){
     menuBar->addAction("View");
     menuBar->addAction("About");
     menuBar->addAction("Help");
-
-    // add frame
-    //QFrame *topFillerFrame = new QFrame;
-    //topFillerFrame->setFrameStyle(QFrame::HLine | QFrame::Plain);
-    //topFillerFrame->setParent(topFiller);
 }
 
 void MainWindow::createCentralWindow(){
@@ -85,34 +83,55 @@ void MainWindow::createCentralWindow(){
 
     QHBoxLayout* mainLayout = new QHBoxLayout;
     mainLayout->addWidget(tabWidget);
+    mainLayout->addSpacing(10);
     mainLayout->addLayout(nmeaDataLayout);
 
     mainWidget->setLayout(mainLayout);
-
-    //QFrame *testFrame = new QFrame;
-    //testFrame->setFrameStyle(QFrame::HLine | QFrame::Plain);
-    //testFrame->setParent(mainWidget);
 }
 
 void MainWindow::createStatusBar(){
     statusBar = new QStatusBar;
 
     statusBar->showMessage("Ready");
-
-    //QFrame *bottomFillerFrame = new QFrame;
-    //bottomFillerFrame->setFrameStyle(QFrame::HLine | QFrame::Plain);
-    //bottomFillerFrame->setParent(bottomFiller);
 }
 
 void MainWindow::createLayout(){
-
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(menuBar);
     mainLayout->addWidget(mainWidget);
     mainLayout->addWidget(statusBar);
+    mainLayout->setContentsMargins(0, 0, 0, 0);
 
     mainWindow->setLayout(mainLayout);
     setCentralWidget(mainWindow);
+}
+
+void MainWindow::createNMEAWidgets(){
+    dataList = new QWidget;
+
+    QVBoxLayout *dataListLayout = new QVBoxLayout;
+    for(int i = 0; i < data->dataNumbers; i++){
+        QHBoxLayout *innerLayout = new QHBoxLayout;
+        QLabel *label = new QLabel(data->dataNames[i]);
+        QPushButton *button = new QPushButton(tr("Add"));
+
+        innerLayout->addWidget(label);
+        innerLayout->addWidget(button);
+        innerLayout->addSpacing(15);
+
+        // vector processing
+        NMEADataList *dataList = new NMEADataList;
+        dataList->dataId = i;
+        dataList->dataName = label;
+        dataList->dataAddButton = button;
+        dataObjects.push_back(dataList);
+
+        dataListLayout->addLayout(innerLayout);
+    }
+    dataListLayout->addStretch();
+
+    dataList->setLayout(dataListLayout);
+    tabWidget->addTab(dataList, "Data List");
 
 }
 

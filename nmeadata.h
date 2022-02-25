@@ -2,6 +2,7 @@
 #define NMEADATA_H
 
 #include<QString>
+#include<QVector>
 
 class nmeaData
 {
@@ -18,7 +19,7 @@ public:
         QString unitsOfRadius;
         QString waypointId;
         QString checksum;
-    }; AAM *aam = new AAM;
+    }; AAM *aam;
 
     struct ALM { // GPS Almanac Data
         bool isClicked = false;
@@ -39,7 +40,7 @@ public:
         QString f0clockParameter;
         QString f1clockParameter;
         QString checksum;
-    }; ALM *alm = new ALM;
+    }; ALM *alm;
 
     struct RSA { // Rudder Sensor Angle
         bool isClicked = false;
@@ -50,7 +51,7 @@ public:
         QString portRudderSensor;
         QString status1;
         QString checksum;
-    }; RSA *rsa = new RSA;
+    }; RSA *rsa;
 
     struct RTE { // Routes
         bool isClicked = false;
@@ -62,7 +63,15 @@ public:
         QString routeId;
         QString waypointId;
         QString additionalWaypointId;
-    }; RTE *rte = new RTE;
+    }; RTE *rte;
+
+    const static int dataNumbers = 4;
+    QString dataNames[dataNumbers] = {
+        "Waypoint Arrival Alarm",
+        "GPS Almanac Data",
+        "Rudder Sensor Angle",
+        "Routes"
+    };
 
 };
 

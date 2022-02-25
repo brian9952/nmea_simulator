@@ -1,8 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-//#include "nmeadata.cpp"
 #include <QMainWindow>
+#include "nmeadata.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -15,6 +15,7 @@ class QLabel;
 class QCheckBox;
 class QTabWidget;
 class QStatusBar;
+class QPushButton;
 
 class MainWindow : public QMainWindow
 {
@@ -36,6 +37,7 @@ private:
     // main widgets & layouts
     QWidget *mainWidget;
     QWidget *mainWindow;
+    QWidget *dataList;
 
     // objects
     QMenuBar *menuBar;
@@ -44,10 +46,23 @@ private:
     QPlainTextEdit *receiveSerialConsole;
     QStatusBar *statusBar;
 
+    // data Objects
+    struct NMEADataList {
+        int dataId;
+        QLabel *dataName;
+        QPushButton *dataAddButton;
+    };
+    QVector<NMEADataList*> dataObjects;
+
+    nmeaData *data;
+
     void createMenuBar();
     void createCentralWindow();
     void createStatusBar();
     void createLayout();
+    void createNMEAWidgets();
+
+    void showNMEADialog();
 
     //nmeaData *data;
 

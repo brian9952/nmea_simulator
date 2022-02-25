@@ -10,13 +10,13 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp \
     nmeadata.cpp \
+    mainwindow.cpp \
     startupdialog.cpp
 
 HEADERS += \
-    mainwindow.h \
     nmeadata.h \
+    mainwindow.h \
     startupdialog.h
 
 FORMS += \
