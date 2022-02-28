@@ -17,6 +17,8 @@ class QTabWidget;
 class QStatusBar;
 class QPushButton;
 
+class QSerialPort;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -34,6 +36,15 @@ private:
     };
     QVector<DataFrontend*> dataFrontend;
 
+    struct SerialPortConfigs {
+        QString portName;
+        QString baudRate;
+        QString dataBits;
+        QString parity;
+        QString stopBits;
+        QString flowControl;
+    };
+
     // main widgets & layouts
     QWidget *mainWidget;
     QWidget *mainWindow;
@@ -45,6 +56,7 @@ private:
     QPlainTextEdit *sendSerialConsole;
     QPlainTextEdit *receiveSerialConsole;
     QStatusBar *statusBar;
+    QSerialPort *serialPort;
 
     // data Objects
     struct NMEADataList {
@@ -63,6 +75,8 @@ private:
     void createNMEAWidgets();
 
     void showNMEADialog();
+
+    void createSerialPort();
 
     //nmeaData *data;
 

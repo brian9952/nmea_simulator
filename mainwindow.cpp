@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include<QtWidgets>
+#include<QSerialPort>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -17,6 +18,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     data = new nmeaData;
     createNMEAWidgets();
+
+    createSerialPort();
+
 }
 
 void MainWindow::createMenuBar(){
@@ -132,6 +136,12 @@ void MainWindow::createNMEAWidgets(){
 
     dataList->setLayout(dataListLayout);
     tabWidget->addTab(dataList, "Data List");
+
+}
+
+void MainWindow::createSerialPort(){
+
+    serialPort = new QSerialPort;
 
 }
 

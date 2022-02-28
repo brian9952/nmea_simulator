@@ -12,12 +12,14 @@ SOURCES += \
     main.cpp \
     nmeadata.cpp \
     mainwindow.cpp \
-    startupdialog.cpp
+    serialportdialog.cpp \
+    startupdialog.cpp \
 
 HEADERS += \
     nmeadata.h \
     mainwindow.h \
-    startupdialog.h
+    serialportdialog.h \
+    startupdialog.h \
 
 FORMS += \
     mainwindow.ui
