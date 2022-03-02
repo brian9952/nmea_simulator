@@ -5,6 +5,9 @@
 #include<QSerialPort>
 
 class QLabel;
+class QLineEdit; 
+class QComboBox;
+class QGroupBox;
 class QPushButton;
 
 class SerialPortDialog : public QDialog
@@ -17,13 +20,39 @@ public:
 private:
 
     struct PortConfigs {
-        QString portName;
-        QSerialPort::BaudRate baudRate;
-        QSerialPort::DataBits dataBits;
-        QSerialPort::Parity parity;
-        QSerialPort::StopBits stopBits;
-        QSerialPort::FlowControl flowControl;
+        QString portName = "/dev/ttyUSB0";
+        QSerialPort::BaudRate baudRate = QSerialPort::Baud9600;
+        QSerialPort::DataBits dataBits = QSerialPort::Data8;
+        QSerialPort::Parity parity = QSerialPort::NoParity;
+        QSerialPort::StopBits stopBits = QSerialPort::OneStop;
+        QSerialPort::FlowControl flowControl = QSerialPort::NoFlowControl;
     };
+    
+    PortConfigs *configs;
+    
+    void createLayout();
+    void detectSerialPorts();
+    
+    QGroupBox *serialPortBox;
+    
+    QLabel *portNameLabel;
+    QLabel *baudRateLabel;
+    QLabel *dataBitsLabel;
+    QLabel *parityLabel;
+    QLabel *stopBitsLabel;
+    QLabel *flowControlLabel;
+    
+    QComboBox *portNameCombobox;
+    QComboBox *baudRateCombobox;
+    QComboBox *dataBitsCombobox;
+    QComboBox *parityLabelCombobox;
+    QComboBox *stopBitsCombobox;
+    QComboBox *flowControlCombobox;
+    
+    QPushButton *applyButton;
+    QPushButton *cancelButton;
+
+    QVector<QString*> serialPorts;
 
 };
 
