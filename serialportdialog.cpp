@@ -139,3 +139,31 @@ void SerialPortDialog::createLayout(){
     mainLayout->addLayout(buttonLayout);
     
 }
+
+void SerialPortDialog::updateConfig(){
+    // set port name
+    configs->portName = portNameCombobox->itemData(portNameCombobox->currentIndex());
+
+    // set baud rate
+    QString baudRateString = baudRateCombobox->itemData(baudRateCombobox->currentIndex());
+
+    switch(baudRateString){
+        case "1200":
+            configs->baudRate = QSerialPort::Baud1200;
+        case "2400":
+            configs->baudRate = QSerialPort::Baud2400;
+        case "4800":
+            configs->baudRate = QSerialPort::Baud4800;
+        case "9600":
+            configs->baudRate = 
+    }
+
+}
+
+void SerialPortDialog::createConnection(){
+    // apply button connection
+    connect(applyButton, SIGNAL(clicked()), this, updateConfig());
+
+    // cancel button connection
+    connect(cancelButton, SIGNAL(clicked()), this, SLOT(close()));
+}

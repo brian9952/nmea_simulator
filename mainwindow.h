@@ -27,6 +27,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void openPortConfigDialog();
+
 private:
 
     // data structures
@@ -51,7 +54,14 @@ private:
     QWidget *dataList;
 
     // objects
-    QMenuBar *menuBar;
+    // menu
+    QMenuBar *fileMenu;
+    QMenuBar *settingsMenu;
+    QMenuBar *viewMenu;
+    QMenuBar *aboutMenu;
+    QMenuBar *helpMenu;
+
+    // widgets
     QTabWidget *tabWidget;
     QPlainTextEdit *sendSerialConsole;
     QPlainTextEdit *receiveSerialConsole;
@@ -68,13 +78,16 @@ private:
 
     nmeaData *data;
 
+    // ACTIONS
+    // setting actions
+    QAction *openPortDialog;
+
     void createMenuBar();
     void createCentralWindow();
     void createStatusBar();
     void createLayout();
     void createNMEAWidgets();
-
-    void showNMEADialog();
+    void createAction();
 
     void createSerialPort();
 

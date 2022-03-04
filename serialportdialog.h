@@ -17,6 +17,9 @@ public:
 
     SerialPortDialog(QWidget *parent = nullptr);
 
+private slots:
+    void updateConfig();
+
 private:
 
     struct PortConfigs {
@@ -31,6 +34,7 @@ private:
     PortConfigs *configs;
     
     void createLayout();
+    void createConnection();
     void detectSerialPorts();
     
     QGroupBox *serialPortBox;

@@ -26,8 +26,21 @@ MainWindow::MainWindow(QWidget *parent)
 void MainWindow::createMenuBar(){
     menuBar = new QMenuBar;
 
-    // add menus
+    // add file menu
     QMenu *fileMenu = menuBar->addMenu("File");
+    
+    // add settings menu
+    QMenu *settingsMenu = menuBar->addMenu("Settings");
+    settingsMenu->addAction(openPortDialog);
+
+    // add view menu
+    QMenu *viewMenu = menuBar->addMenu("View");
+
+    // add about menu
+    QMenu *aboutMenu = menuBar->addMenu("About");
+
+    // add help menu
+    QMenu *helpMenu = menuBar->addMenu("Help");
     fileMenu->addAction("Test");
     menuBar->addAction("Settings");
     menuBar->addAction("View");
@@ -139,10 +152,25 @@ void MainWindow::createNMEAWidgets(){
 
 }
 
+void MainWindow::createAction(){
+    // open port settings action
+    openPortDialog = new QAction(tr("Port Config"), this);
+    openPortDialog->setStatusTip(tr("open port settings dialog"));
+    connect(openPortDialog, &QAction::trigerred, this, openPortConfigDialog());
+}
+
 void MainWindow::createSerialPort(){
 
     serialPort = new QSerialPort;
 
+}
+
+// SLOTS
+void MainWindow::openPortConfigDialog(){
+    SerialPortDialog *serialPortDialog = new SerialPortDialog;
+    serialPortDialog->setModal();
+    serialPortDialog->setAttribute(Qt::WA_DeleteOnClose);
+    serialPortDialog->show();
 }
 
 MainWindow::~MainWindow()
