@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "serialportdialog.h"
 #include "nmeadata.h"
 
 QT_BEGIN_NAMESPACE
@@ -55,11 +56,12 @@ private:
 
     // objects
     // menu
-    QMenuBar *fileMenu;
-    QMenuBar *settingsMenu;
-    QMenuBar *viewMenu;
-    QMenuBar *aboutMenu;
-    QMenuBar *helpMenu;
+    QMenuBar *menuBar;
+    QMenu *fileMenu;
+    QMenu *settingsMenu;
+    QMenu *viewMenu;
+    QMenu *aboutMenu;
+    QMenu *helpMenu;
 
     // widgets
     QTabWidget *tabWidget;

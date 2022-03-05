@@ -12,10 +12,12 @@ class QPushButton;
 
 class SerialPortDialog : public QDialog
 {
-public:
+
     Q_OBJECT
 
+public:
     SerialPortDialog(QWidget *parent = nullptr);
+
 
 private slots:
     void updateConfig();

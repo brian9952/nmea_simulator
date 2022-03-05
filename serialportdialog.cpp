@@ -1,4 +1,5 @@
 #include "serialportdialog.h"
+
 #include <QtWidgets>
 #include <QSerialPort>
 

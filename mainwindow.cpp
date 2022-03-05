@@ -27,25 +27,25 @@ void MainWindow::createMenuBar(){
     menuBar = new QMenuBar;
 
     // add file menu
-    QMenu *fileMenu = menuBar->addMenu("File");
+    fileMenu = new QMenu;
+    fileMenu = menuBar->addMenu("File");
     
     // add settings menu
-    QMenu *settingsMenu = menuBar->addMenu("Settings");
+    settingsMenu = new QMenu;
+    settingsMenu = menuBar->addMenu("Settings");
     settingsMenu->addAction(openPortDialog);
 
     // add view menu
-    QMenu *viewMenu = menuBar->addMenu("View");
+    viewMenu = new QMenu;
+    viewMenu = menuBar->addMenu("View");
 
     // add about menu
-    QMenu *aboutMenu = menuBar->addMenu("About");
+    aboutMenu = new QMenu;
+    aboutMenu = menuBar->addMenu("About");
 
     // add help menu
-    QMenu *helpMenu = menuBar->addMenu("Help");
-    fileMenu->addAction("Test");
-    menuBar->addAction("Settings");
-    menuBar->addAction("View");
-    menuBar->addAction("About");
-    menuBar->addAction("Help");
+    helpMenu = new QMenu;
+    helpMenu = menuBar->addMenu("Help");
 }
 
 void MainWindow::createCentralWindow(){
@@ -156,7 +156,7 @@ void MainWindow::createAction(){
     // open port settings action
     openPortDialog = new QAction(tr("Port Config"), this);
     openPortDialog->setStatusTip(tr("open port settings dialog"));
-    connect(openPortDialog, &QAction::trigerred, this, openPortConfigDialog());
+    connect(openPortDialog, SIGNAL(&QAction::triggered), this, SLOT(openPortConfigDialog()));
 }
 
 void MainWindow::createSerialPort(){
@@ -167,10 +167,11 @@ void MainWindow::createSerialPort(){
 
 // SLOTS
 void MainWindow::openPortConfigDialog(){
-    SerialPortDialog *serialPortDialog = new SerialPortDialog;
-    serialPortDialog->setModal();
+    SerialPortDialog *serialPortDialog = new SerialPortDialog();
     serialPortDialog->setAttribute(Qt::WA_DeleteOnClose);
     serialPortDialog->show();
+    serialPortDialog->raise();
+    serialPortDialog->activateWindow();
 }
 
 MainWindow::~MainWindow()
