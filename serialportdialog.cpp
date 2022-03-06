@@ -2,6 +2,7 @@
 
 #include <QtWidgets>
 #include <QSerialPort>
+#include <QSerialPortInfo>
 
 SerialPortDialog::SerialPortDialog(QWidget *parent) : QDialog(parent)
 {
@@ -93,7 +94,7 @@ void SerialPortDialog::createLayout(){
     
     // create stop bits configs
     stopBitsLabel = new QLabel(tr("Stop Bits: "));
-    stopBitsCombobox = new QCombobox();
+    stopBitsCombobox = new QComboBox();
     stopBitsCombobox->addItem("One Stop");
     stopBitsCombobox->addItem("One and Half Stop");
     stopBitsCombobox->addItem("Two Stop");
@@ -104,11 +105,16 @@ void SerialPortDialog::createLayout(){
     stopBitsLayout->addWidget(stopBitsCombobox);
     
     // create flow control configs
-    flowControlabel = new QLabel(tr("Flow Control"));
-    flowControlCombobox = new QCombobox();
+    flowControlLabel = new QLabel(tr("Flow Control"));
+    flowControlCombobox = new QComboBox();
     flowControlCombobox->addItem("No Flow Control");
     flowControlCombobox->addItem("Hardware Control");
     flowControlCombobox->addItem("Software Control");
+
+    // create layout
+    QHBoxLayout *flowControlLayout = new QHBoxLayout;
+    flowControlLayout->addWidget(flowControlLabel);
+    flowControlLayout->addWidget(flowControlCombobox);
     
     // create left three labels and dropdown box
     QVBoxLayout *leftLayout = new QVBoxLayout;
@@ -141,6 +147,7 @@ void SerialPortDialog::createLayout(){
     
 }
 
+/*
 void SerialPortDialog::updateConfig(){
     // set port name
     configs->portName = portNameCombobox->itemData(portNameCombobox->currentIndex());
@@ -160,10 +167,11 @@ void SerialPortDialog::updateConfig(){
     }
 
 }
+*/
 
 void SerialPortDialog::createConnection(){
     // apply button connection
-    connect(applyButton, SIGNAL(clicked()), this, updateConfig());
+    connect(applyButton, SIGNAL(clicked()), this, SLOT(updateConfig()));
 
     // cancel button connection
     connect(cancelButton, SIGNAL(clicked()), this, SLOT(close()));

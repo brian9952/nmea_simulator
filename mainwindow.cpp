@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     // create central widget
     mainWindow = new QWidget;
 
+    createAction();
     createMenuBar();
     createCentralWindow();
     createStatusBar();
@@ -20,7 +21,6 @@ MainWindow::MainWindow(QWidget *parent)
     createNMEAWidgets();
 
     createSerialPort();
-
 }
 
 void MainWindow::createMenuBar(){
@@ -167,7 +167,7 @@ void MainWindow::createSerialPort(){
 
 // SLOTS
 void MainWindow::openPortConfigDialog(){
-    SerialPortDialog *serialPortDialog = new SerialPortDialog();
+    serialPortDialog = new SerialPortDialog();
     serialPortDialog->setAttribute(Qt::WA_DeleteOnClose);
     serialPortDialog->show();
     serialPortDialog->raise();

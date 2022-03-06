@@ -19,8 +19,8 @@ public:
     SerialPortDialog(QWidget *parent = nullptr);
 
 
-private slots:
-    void updateConfig();
+//private slots:
+//    void updateConfig();
 
 private:
 
@@ -51,14 +51,14 @@ private:
     QComboBox *portNameCombobox;
     QComboBox *baudRateCombobox;
     QComboBox *dataBitsCombobox;
-    QComboBox *parityLabelCombobox;
+    QComboBox *parityCombobox;
     QComboBox *stopBitsCombobox;
     QComboBox *flowControlCombobox;
     
     QPushButton *applyButton;
     QPushButton *cancelButton;
 
-    QVector<QString*> serialPorts;
+    QVector<QString> serialPorts;
 
 };
 

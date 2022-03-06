@@ -95,6 +95,9 @@ private:
 
     //nmeaData *data;
 
+    // DIALOGS
+    SerialPortDialog *serialPortDialog;
+
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H
