@@ -145,6 +145,8 @@ void SerialPortDialog::createLayout(){
     mainLayout->addLayout(configsLayout);
     mainLayout->addLayout(buttonLayout);
     
+    setLayout(mainLayout);
+
 }
 
 /*
