@@ -156,7 +156,7 @@ void MainWindow::createAction(){
     // open port settings action
     openPortDialog = new QAction(tr("Port Config"), this);
     openPortDialog->setStatusTip(tr("open port settings dialog"));
-    connect(openPortDialog, SIGNAL(&QAction::triggered), this, SLOT(openPortConfigDialog()));
+    connect(openPortDialog, SIGNAL(triggered()), this, SLOT(openPortConfigDialog()));
 }
 
 void MainWindow::createSerialPort(){
