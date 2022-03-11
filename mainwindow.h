@@ -90,6 +90,7 @@ private:
     void createLayout();
     void createNMEAWidgets();
     void createAction();
+    void createConnection();
 
     void createSerialPort();
 

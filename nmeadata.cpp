@@ -3,7 +3,7 @@
 nmeaData::nmeaData()
 {
     aam = new AAM;
-    alm = new ALM;
-    rsa = new RSA;
-    rte = new RTE;
+    bod = new BOD;
+    dpt = new DPT;
+    rot = new ROT;
 }

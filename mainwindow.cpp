@@ -160,9 +160,10 @@ void MainWindow::createAction(){
 }
 
 void MainWindow::createSerialPort(){
-
-    serialPort = new QSerialPort;
-
+    // nmea data add
+    for(int i = 0; i < dataObjects.length(); i++){
+        // to be worked on
+    }
 }
 
 // SLOTS

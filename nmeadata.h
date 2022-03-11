@@ -13,64 +13,44 @@ public:
         bool isClicked = false;
         bool isOn = false;
         int id = 1;
-        char status1;
-        char status2;
-        float arrivalCircleRadius;
-        QString unitsOfRadius;
-        QString waypointId;
-        QString checksum;
+        float arrivalCircleRadius_firstRange; // 0.0 - 1.0
+        float arrivalCircleRadius_lastRange; // 0.0 - 1.0
     }; AAM *aam;
 
-    struct ALM { // GPS Almanac Data
+    struct BOD { // bearing waypoint to waypoint
         bool isClicked = false;
         bool isOn = false;
         int id = 2;
-        int numberOfMessages;
-        int satellitePRNNumber;
-        int GPSWeekNumber;
-        QString SVHealth;
-        QString eccentricity;
-        QString almanacReferenceTime;
-        QString inclinationAngle;
-        QString rateOfRightAscension;
-        QString rootOfSemimajorAxis;
-        QString argumentOfPerigee;
-        QString longitudeOfAscensionMode;
-        QString meanAnomaly;
-        QString f0clockParameter;
-        QString f1clockParameter;
-        QString checksum;
-    }; ALM *alm;
+        float bearingDegreesTrue_firstRange; // 0 - 360
+        float bearingDegreesTrue_lastRange; // 0 - 360
+        float bearingDegreesMagn_firstRange; // 0 - 360
+        float bearingDegreesMagn_lastRange; // 0 - 360
+    }; BOD *bod;
 
-    struct RSA { // Rudder Sensor Angle
+    struct DPT { // depth of water
         bool isClicked = false;
         bool isOn = false;
         int id = 3;
-        QString starboardRudderSensor;
-        QString status0;
-        QString portRudderSensor;
-        QString status1;
-        QString checksum;
-    }; RSA *rsa;
+        float waterDepth_firstRange; // 0 - inf
+        float waterDepth_lastRange; // 0 - inf
+        float maxRange_firstRange; // 0 - inf
+        float maxRange_lastRange; // 0 - inf
+    }; DPT *dpt;
 
-    struct RTE { // Routes
+    struct ROT { // rate of turn
         bool isClicked = false;
         bool isOn = false;
         int id = 4;
-        int numberOfRE;
-        int sentenceNumber;
-        QString sentenceMode;
-        QString routeId;
-        QString waypointId;
-        QString additionalWaypointId;
-    }; RTE *rte;
+        float rateOfTurn_firstRange; // 0 - 360
+        float rateOfTurn_lastRange; // 0 - 360
+    }; ROT *rot;
 
     const static int dataNumbers = 4;
     QString dataNames[dataNumbers] = {
         "Waypoint Arrival Alarm",
-        "GPS Almanac Data",
-        "Rudder Sensor Angle",
-        "Routes"
+        "Bearing Waypoint to Waypoint",
+        "Depth of Water",
+        "Rate of Turn"
     };
 
 };

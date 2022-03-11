@@ -19,9 +19,6 @@ public:
     SerialPortDialog(QWidget *parent = nullptr);
 
 
-//private slots:
-//    void updateConfig();
-
 private:
 
     struct PortConfigs {
