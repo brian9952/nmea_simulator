@@ -11,6 +11,7 @@ SerialPortDialog::SerialPortDialog(QWidget *parent) : QDialog(parent)
 
     // create dialog layout
     createLayout();
+    createConnection();
     
     configs->baudRate = QSerialPort::Baud115200;
     QSerialPort *port = new QSerialPort;

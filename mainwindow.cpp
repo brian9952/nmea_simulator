@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     data = new nmeaData;
     createNMEAWidgets();
 
-    createSerialPort();
+    createConnection();
 }
 
 void MainWindow::createMenuBar(){
@@ -159,11 +159,18 @@ void MainWindow::createAction(){
     connect(openPortDialog, SIGNAL(triggered()), this, SLOT(openPortConfigDialog()));
 }
 
-void MainWindow::createSerialPort(){
+void MainWindow::createConnection(){
+    mapper = new QSignalMapper;
+
     // nmea data add
     for(int i = 0; i < dataObjects.length(); i++){
-        // to be worked on
+        connect(dataObjects[i]->dataAddButton, SIGNAL(clicked()), mapper, SLOT(map()));
+        mapper->setMapping(dataObjects[i]->dataAddButton, i);
     }
+
+    // signal mapping
+    connect(mapper, SIGNAL(mapped(int)), this, SLOT(openNMEADialog(int)));
+
 }
 
 // SLOTS
@@ -173,6 +180,19 @@ void MainWindow::openPortConfigDialog(){
     serialPortDialog->show();
     serialPortDialog->raise();
     serialPortDialog->activateWindow();
+}
+
+void MainWindow::openNMEADialog(int i){
+    switch(i){
+        case 0:
+            aamDialog = new AAMDialog();
+            aamDialog->setAttribute(Qt::WA_DeleteOnClose);
+            aamDialog->show();
+            aamDialog->raise();
+            aamDialog->activateWindow();
+        default:
+            return;
+    }
 }
 
 MainWindow::~MainWindow()

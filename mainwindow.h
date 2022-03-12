@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "serialportdialog.h"
 #include "nmeadata.h"
+#include "aamdialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,6 +18,7 @@ class QCheckBox;
 class QTabWidget;
 class QStatusBar;
 class QPushButton;
+class QSignalMapper;
 
 class QSerialPort;
 
@@ -30,6 +32,7 @@ public:
 
 private slots:
     void openPortConfigDialog();
+    void openNMEADialog(int i);
 
 private:
 
@@ -70,6 +73,9 @@ private:
     QStatusBar *statusBar;
     QSerialPort *serialPort;
 
+    // signal mapper
+    QSignalMapper *mapper;
+
     // data Objects
     struct NMEADataList {
         int dataId;
@@ -92,12 +98,9 @@ private:
     void createAction();
     void createConnection();
 
-    void createSerialPort();
-
-    //nmeaData *data;
-
     // DIALOGS
     SerialPortDialog *serialPortDialog;
+    AAMDialog *aamDialog;
 
     Ui::MainWindow *ui;
 };
