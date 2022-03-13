@@ -1,6 +1,7 @@
 #ifndef AAMDIALOG_H
 #define AAMDIALOG_H
 
+#include "libs/RangeSlider.h"
 #include <QDialog>
 
 class QLabel;
@@ -14,10 +15,19 @@ class AAMDialog : public QDialog
 public:
     AAMDialog(QWidget *parent = nullptr);
 
+private slots:
+    void syncHighValue(int val);
+    void syncLowValue(int val);
+
 private:
     void createLayout();
+    void createConnection();
 
-    QLabel *hello;
+    QLabel *acrLabel;
+    QLabel *lowLabelValue;
+    QLabel *highLabelValue;
+    RangeSlider *acrRangeSlider;
+
 };
 
 #endif // AAMDIALOG_H

@@ -15,6 +15,7 @@ SOURCES += \
     serialportdialog.cpp \
     startupdialog.cpp \
     aamdialog.cpp \
+    libs/RangeSlider.cpp
 
 HEADERS += \
     nmeadata.h \
@@ -22,6 +23,7 @@ HEADERS += \
     serialportdialog.h \
     startupdialog.h \
     aamdialog.h \
+    libs/RangeSlider.h
 
 FORMS += \
     mainwindow.ui
