@@ -15,6 +15,7 @@ SOURCES += \
     serialportdialog.cpp \
     startupdialog.cpp \
     aamdialog.cpp \
+    boddialog.cpp \
     libs/RangeSlider.cpp
 
 HEADERS += \
@@ -23,6 +24,7 @@ HEADERS += \
     serialportdialog.h \
     startupdialog.h \
     aamdialog.h \
+    boddialog.h \
     libs/RangeSlider.h
 
 FORMS += \

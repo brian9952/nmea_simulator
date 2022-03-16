@@ -6,6 +6,9 @@
 
 class QLabel;
 class QLineEdit;
+class QPushButton;
+class QComboBox;
+class QSignalMapper;
 
 class AAMDialog : public QDialog
 {
@@ -14,6 +17,10 @@ class AAMDialog : public QDialog
 
 public:
     AAMDialog(QWidget *parent = nullptr);
+
+    // public buttons;
+    QPushButton *addButton;
+    QPushButton *cancelButton;
 
 private slots:
     void syncHighValue(int val);
@@ -27,6 +34,8 @@ private:
     QLabel *lowLabelValue;
     QLabel *highLabelValue;
     RangeSlider *acrRangeSlider;
+    QLabel *durationLabel;
+    QComboBox *durationCombobox;
 
 };
 

@@ -3,6 +3,7 @@
 
 #include<QtWidgets>
 #include<QSerialPort>
+#include<iostream>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -16,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent)
     createCentralWindow();
     createStatusBar();
     createLayout();
+
+    createDialog();
 
     data = new nmeaData;
     createNMEAWidgets();
@@ -66,33 +69,19 @@ void MainWindow::createCentralWindow(){
 
     consoleWidget->setLayout(innerConsoleLayout);
 
-    // create nmeadata list (dummy)
-    for(int i = 0; i < 3; i++){
-        QString labelName = "Data" + QString::number(i);
-        QLabel *label = new QLabel(labelName);
-        QCheckBox *checkbox = new QCheckBox;
-        label->setBuddy(checkbox);
-
-        DataFrontend *obj = new DataFrontend;
-        obj->labelData = label;
-        obj->checkboxData = checkbox;
-
-        dataFrontend.push_back(obj);
-    }
-
-    QVBoxLayout *nmeaDataLayout = new QVBoxLayout;
-
-    QLabel *nmeaDataLabel = new QLabel(tr("NMEA Data:"));
-    nmeaDataLayout->addWidget(nmeaDataLabel);
-
-    for (int i = 0; i < 3; i++){
-        QHBoxLayout *dataLayout = new QHBoxLayout;
-        dataLayout->addWidget(dataFrontend[i]->labelData);
-        dataLayout->addWidget(dataFrontend[i]->checkboxData);
-
-        nmeaDataLayout->addLayout(dataLayout);
-    }
+    // add layout
+    nmeaDataLayout = new QVBoxLayout;
     nmeaDataLayout->addStretch();
+
+    // add title
+    QHBoxLayout *nmeaDataTitleLayout = new QHBoxLayout;
+    QLabel *nmeaDataTitle = new QLabel(tr("NMEA Data:"));
+    nmeaDataTitle->setFixedWidth(160);
+    nmeaDataTitleLayout->addWidget(nmeaDataTitle);
+
+    // insert layout into nmea data layout
+    nmeaDataLayout->setGeometry(QRect(0, 0, 80, 0));
+    nmeaDataLayout->insertLayout(nmeaDataLayout->count() - 1, nmeaDataTitleLayout);
 
     // add tab widget
     tabWidget = new QTabWidget;
@@ -101,6 +90,7 @@ void MainWindow::createCentralWindow(){
     QHBoxLayout* mainLayout = new QHBoxLayout;
     mainLayout->addWidget(tabWidget);
     mainLayout->addSpacing(10);
+    mainLayout->addLayout(nmeaDataTitleLayout);
     mainLayout->addLayout(nmeaDataLayout);
 
     mainWidget->setLayout(mainLayout);
@@ -129,12 +119,13 @@ void MainWindow::createNMEAWidgets(){
     QVBoxLayout *dataListLayout = new QVBoxLayout;
     for(int i = 0; i < data->dataNumbers; i++){
         QHBoxLayout *innerLayout = new QHBoxLayout;
-        QLabel *label = new QLabel(data->dataNames[i]);
+        QLabel *label = new QLabel(data->dataStatus[i]->dataNames);
         QPushButton *button = new QPushButton(tr("Add"));
 
         innerLayout->addWidget(label);
+        innerLayout->addStretch();
         innerLayout->addWidget(button);
-        innerLayout->addSpacing(15);
+        //innerLayout->addSpacing(15);
 
         // vector processing
         NMEADataList *dataList = new NMEADataList;
@@ -160,17 +151,32 @@ void MainWindow::createAction(){
 }
 
 void MainWindow::createConnection(){
-    mapper = new QSignalMapper;
+    dataDialogMapper = new QSignalMapper;
 
-    // nmea data add
+    // nmea data add button
     for(int i = 0; i < dataObjects.length(); i++){
-        connect(dataObjects[i]->dataAddButton, SIGNAL(clicked()), mapper, SLOT(map()));
-        mapper->setMapping(dataObjects[i]->dataAddButton, i);
+        connect(dataObjects[i]->dataAddButton, SIGNAL(clicked()),
+                dataDialogMapper, SLOT(map()));
+        dataDialogMapper->setMapping(dataObjects[i]->dataAddButton, i);
     }
 
     // signal mapping
-    connect(mapper, SIGNAL(mapped(int)), this, SLOT(openNMEADialog(int)));
+    connect(dataDialogMapper, SIGNAL(mapped(int)),
+            this, SLOT(openNMEADialog(int)));
 
+    // data add
+    addDataMapper = new QSignalMapper;
+    connect(aamDialog->addButton, SIGNAL(clicked()),
+            addDataMapper, SLOT(map()));
+    addDataMapper->setMapping(aamDialog->addButton, 0);
+    connect(addDataMapper, SIGNAL(mapped(int)),
+            this, SLOT(addData(int)));
+
+}
+
+void MainWindow::createDialog(){
+    aamDialog = new AAMDialog;
+    bodDialog = new BODDialog;
 }
 
 // SLOTS
@@ -185,14 +191,34 @@ void MainWindow::openPortConfigDialog(){
 void MainWindow::openNMEADialog(int i){
     switch(i){
         case 0:
-            aamDialog = new AAMDialog();
-            aamDialog->setAttribute(Qt::WA_DeleteOnClose);
             aamDialog->show();
             aamDialog->raise();
             aamDialog->activateWindow();
+            break;
+        case 1:
+            bodDialog->show();
+            bodDialog->raise();
+            bodDialog->activateWindow();
+            break;
         default:
             return;
     }
+}
+
+void MainWindow::addData(int index){
+    DataFrontend *newObj = new DataFrontend;
+    QLabel *newDataLabel = new QLabel(data->dataStatus[index]->dataNames);
+    QCheckBox *newDataCheckbox = new QCheckBox();
+
+    newObj->labelData = newDataLabel;
+    newObj->checkboxData = newDataCheckbox;
+    dataFrontend.push_back(newObj);
+
+    QHBoxLayout *newDataLayout = new QHBoxLayout;
+    newDataLayout->addWidget(newObj->labelData);
+    newDataLayout->addWidget(newObj->checkboxData);
+
+    nmeaDataLayout->insertLayout(nmeaDataLayout->count()-1, newDataLayout);
 }
 
 MainWindow::~MainWindow()
