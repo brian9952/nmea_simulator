@@ -16,7 +16,8 @@ SOURCES += \
     startupdialog.cpp \
     aamdialog.cpp \
     boddialog.cpp \
-    libs/RangeSlider.cpp
+    libs/RangeSlider.cpp \
+    threads.cpp
 
 HEADERS += \
     nmeadata.h \
@@ -25,7 +26,8 @@ HEADERS += \
     startupdialog.h \
     aamdialog.h \
     boddialog.h \
-    libs/RangeSlider.h
+    libs/RangeSlider.h \
+    threads.h
 
 FORMS += \
     mainwindow.ui

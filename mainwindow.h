@@ -6,6 +6,7 @@
 #include "nmeadata.h"
 #include "aamdialog.h"
 #include "boddialog.h"
+#include "threads.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -112,8 +113,11 @@ private:
     AAMDialog *aamDialog;
     BODDialog *bodDialog;
 
-    // manipulation functions
+    // generic functions
+    QString convertAbbvr(const QString &str);
 
+    // threads
+    SendDataThreads *sendThread;
 
     Ui::MainWindow *ui;
 };

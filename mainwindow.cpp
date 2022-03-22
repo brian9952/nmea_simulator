@@ -24,6 +24,9 @@ MainWindow::MainWindow(QWidget *parent)
     createNMEAWidgets();
 
     createConnection();
+
+    // create threads
+    sendThread = new SendDataThreads(sendSerialConsole, this);
 }
 
 void MainWindow::createMenuBar(){
@@ -179,6 +182,19 @@ void MainWindow::createDialog(){
     bodDialog = new BODDialog;
 }
 
+// Generic Functions
+QString MainWindow::convertAbbvr(const QString &str){
+    str.toStdString();
+    QString new_str;
+    for(int i = 0; i < str.length(); i++){
+        if(i == 0)
+            new_str.push_back(str[i]);
+        if(str[i] == ' ')
+            new_str.push_back(str[i+1]);
+    }
+    return new_str;
+}
+
 // SLOTS
 void MainWindow::openPortConfigDialog(){
     serialPortDialog = new SerialPortDialog();
@@ -207,7 +223,7 @@ void MainWindow::openNMEADialog(int i){
 
 void MainWindow::addData(int index){
     DataFrontend *newObj = new DataFrontend;
-    QLabel *newDataLabel = new QLabel(data->dataStatus[index]->dataNames);
+    QLabel *newDataLabel = new QLabel(convertAbbvr(data->dataStatus[index]->dataNames));
     QCheckBox *newDataCheckbox = new QCheckBox();
 
     newObj->labelData = newDataLabel;
@@ -223,5 +239,6 @@ void MainWindow::addData(int index){
 
 MainWindow::~MainWindow()
 {
+    delete sendThread;
     delete ui;
 }
