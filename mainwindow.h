@@ -108,6 +108,7 @@ private:
     void createAction();
     void createConnection();
     void createDialog();
+    void createTimers();
 
     // Data Execution Functions
     QTimer *sendTimer;

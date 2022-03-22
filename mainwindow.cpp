@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     createNMEAWidgets();
 
     createConnection();
+    createTimers();
 
     // create threads
     sendThread = new SendDataThreads(sendSerialConsole, this);
@@ -182,9 +183,18 @@ void MainWindow::createDialog(){
     bodDialog = new BODDialog;
 }
 
+void MainWindow::createTimers(){
+    sendTimer = new QTimer(this);
+    connect(sendTimer, &QTimer::timeout, this, &MainWindow::sendData);
+    sendTimer->start(1000);
+}
+
 // Data Execution Functions
 void MainWindow::sendData(){
     QString dataStr;
+    if(dataFrontend.length() == 0)
+        return;
+
     for(int i = 0; i < dataFrontend.length(); i++){
         switch(dataFrontend[i]->id){
             case 0:
@@ -193,6 +203,7 @@ void MainWindow::sendData(){
         }
     }
     // send data to thread
+    sendThread->sendData(dataStr);
 }
 
 // Generic Functions

@@ -13,9 +13,7 @@ class SendDataThreads: public QObject
 public:
     explicit SendDataThreads(QPlainTextEdit *sendConsole_param, QObject *parent = nullptr);
 
-private slots:
-    void executeTimer();
-    void sendData();
+    void sendData(QString &str);
 
 private:
     QPlainTextEdit *sendConsole;
