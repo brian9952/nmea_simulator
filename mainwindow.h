@@ -41,11 +41,12 @@ private slots:
 private:
 
     // data structures
-    struct DataFrontend {
+    struct RunningData {
+        int id;
         QLabel *labelData;
         QCheckBox *checkboxData;
     };
-    QVector<DataFrontend*> dataFrontend;
+    QVector<RunningData*> dataFrontend;
 
     struct SerialPortConfigs {
         QString portName;
@@ -107,6 +108,10 @@ private:
     void createAction();
     void createConnection();
     void createDialog();
+
+    // Data Execution Functions
+    QTimer *sendTimer;
+    void sendData();
 
     // DIALOGS
     SerialPortDialog *serialPortDialog;

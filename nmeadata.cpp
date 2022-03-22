@@ -27,3 +27,19 @@ nmeaData::nmeaData()
     }
 
 }
+
+QString nmeaData::createAAMString(){
+    QString str;
+    str.append("GPAAM,A,A,");
+
+    // generate arrival circle radius val
+    QRandomGenerator rand;
+    rand.generate(aam->arrivalCircleRadius_firstRange, aam->arrivalCircleRadius_lastRange);
+    double acr = rand.generateDouble();
+
+    // append to str
+    str.append(QString::number(acr));
+    str.append(",N,WPTNME,*43");
+
+    return str;
+}

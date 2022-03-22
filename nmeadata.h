@@ -11,12 +11,14 @@ public:
 
     struct AAM { // Waypoint Arrival Alarm
         int id = 0;
+        int duration;
         float arrivalCircleRadius_firstRange; // 0.0 - 1.0
         float arrivalCircleRadius_lastRange; // 0.0 - 1.0
     }; AAM *aam;
 
     struct BOD { // bearing waypoint to waypoint
         int id = 1;
+        int duration;
         float bearingDegreesTrue_firstRange; // 0 - 360
         float bearingDegreesTrue_lastRange; // 0 - 360
         float bearingDegreesMagn_firstRange; // 0 - 360
@@ -25,6 +27,7 @@ public:
 
     struct DPT { // depth of water
         int id = 2;
+        int duration;
         float waterDepth_firstRange; // 0 - inf
         float waterDepth_lastRange; // 0 - inf
         float maxRange_firstRange; // 0 - inf
@@ -33,6 +36,7 @@ public:
 
     struct ROT { // rate of turn
         int id = 3;
+        int duration;
         float rateOfTurn_firstRange; // 0 - 360
         float rateOfTurn_lastRange; // 0 - 360
     }; ROT *rot;
@@ -46,6 +50,9 @@ public:
 
     QVector<dataStruct*> dataStatus;
     const static int dataNumbers = 4;
+
+    // get string data
+    QString createAAMString();
 
 };
 

@@ -61,6 +61,11 @@ void AAMDialog::createLayout(){
     setLayout(layout);
 }
 
+void AAMDialog::applyConfigs(){
+    arrivalCircleRadius_firstRange = acrRangeSlider->GetLowerValue() / 100;
+    arrivalCircleRadius_lastRange = acrRangeSlider->GetUpperValue() / 100;
+}
+
 void AAMDialog::createConnection(){
     // range slider signalling
     // low value

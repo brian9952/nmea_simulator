@@ -182,6 +182,19 @@ void MainWindow::createDialog(){
     bodDialog = new BODDialog;
 }
 
+// Data Execution Functions
+void MainWindow::sendData(){
+    QString dataStr;
+    for(int i = 0; i < dataFrontend.length(); i++){
+        switch(dataFrontend[i]->id){
+            case 0:
+                dataStr.append(data->createAAMString());
+                break;
+        }
+    }
+    // send data to thread
+}
+
 // Generic Functions
 QString MainWindow::convertAbbvr(const QString &str){
     str.toStdString();
@@ -222,10 +235,12 @@ void MainWindow::openNMEADialog(int i){
 }
 
 void MainWindow::addData(int index){
-    DataFrontend *newObj = new DataFrontend;
+    RunningData *newObj = new RunningData;
     QLabel *newDataLabel = new QLabel(convertAbbvr(data->dataStatus[index]->dataNames));
     QCheckBox *newDataCheckbox = new QCheckBox();
 
+    // insert layout
+    newObj->id = index;
     newObj->labelData = newDataLabel;
     newObj->checkboxData = newDataCheckbox;
     dataFrontend.push_back(newObj);
@@ -235,6 +250,15 @@ void MainWindow::addData(int index){
     newDataLayout->addWidget(newObj->checkboxData);
 
     nmeaDataLayout->insertLayout(nmeaDataLayout->count()-1, newDataLayout);
+
+    // get configs
+    switch(index){
+        case 0:
+            aamDialog->applyConfigs();
+            data->aam->arrivalCircleRadius_firstRange = aamDialog->arrivalCircleRadius_firstRange;
+            data->aam->arrivalCircleRadius_lastRange = aamDialog->arrivalCircleRadius_lastRange;
+            aamDialog->close();
+    }
 }
 
 MainWindow::~MainWindow()

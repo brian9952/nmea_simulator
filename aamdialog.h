@@ -22,6 +22,13 @@ public:
     QPushButton *addButton;
     QPushButton *cancelButton;
 
+    // config
+    float arrivalCircleRadius_firstRange;
+    float arrivalCircleRadius_lastRange;
+
+    // functions
+    void applyConfigs();
+
 private slots:
     void syncHighValue(int val);
     void syncLowValue(int val);
