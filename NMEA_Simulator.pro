@@ -13,21 +13,21 @@ SOURCES += \
     nmeadata.cpp \
     mainwindow.cpp \
     serialportdialog.cpp \
-    startupdialog.cpp \
     aamdialog.cpp \
     boddialog.cpp \
     libs/RangeSlider.cpp \
-    threads.cpp
+    threads.cpp \
+    startupdialog.cpp \
 
 HEADERS += \
     nmeadata.h \
     mainwindow.h \
     serialportdialog.h \
-    startupdialog.h \
     aamdialog.h \
     boddialog.h \
     libs/RangeSlider.h \
     threads.h \
+    startupdialog.h \
 
 FORMS += \
     mainwindow.ui
