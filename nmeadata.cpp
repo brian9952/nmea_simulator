@@ -28,17 +28,22 @@ nmeaData::nmeaData()
 
 }
 
+float nmeaData::randomFloat(float a, float b){
+    float random = ((float) rand()) / (float) RAND_MAX;
+    float diff = b - a;
+    float r = random * diff;
+    return a + r;
+}
+
 QString nmeaData::createAAMString(){
     QString str;
     str.append("GPAAM,A,A,");
 
     // generate arrival circle radius val
-    QRandomGenerator rand;
-    rand.generate(aam->arrivalCircleRadius_firstRange, aam->arrivalCircleRadius_lastRange);
-    double acr = rand.generateDouble();
+    float rand = randomFloat(aam->arrivalCircleRadius_firstRange, aam->arrivalCircleRadius_lastRange);
 
     // append to str
-    str.append(QString::number(acr));
+    str.append(QString::number(rand));
     str.append(",N,WPTNME,*43");
 
     return str;

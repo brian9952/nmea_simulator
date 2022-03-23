@@ -54,6 +54,9 @@ public:
     // get string data
     QString createAAMString();
 
+private:
+    float randomFloat(float a, float b);
+
 };
 
 #endif // NMEADATA_H

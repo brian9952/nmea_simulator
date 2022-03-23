@@ -2,25 +2,37 @@
 #define THREADS_H
 
 #include <QObject>
+#include <QVector>
 
 class QPlainTextEdit;
 class QTimer;
 class QThread;
+class QLabel;
+class QCheckBox;
+class nmeaData;
 
 class SendDataThreads: public QObject
 {
     Q_OBJECT
 public:
-    explicit SendDataThreads(QPlainTextEdit *sendConsole_param, QObject *parent = nullptr);
+    explicit SendDataThreads(QPlainTextEdit *sendConsole_param, nmeaData *dataObj_param, QObject *parent = nullptr);
+    void setAddedData(QVector<int> &addedDataId_param);
 
-    void sendData(QString &str);
+private slots:
+    void startTimer();
+    void sendData();
 
 private:
     QPlainTextEdit *sendConsole;
     QTimer *timer;
     QThread *thread;
 
-signals:
+    // data identification
+    QVector<int> addedDataId;
+
+    // nmea data obj
+    nmeaData *dataObj;
+
 
 };
 

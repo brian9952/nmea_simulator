@@ -27,7 +27,7 @@ HEADERS += \
     aamdialog.h \
     boddialog.h \
     libs/RangeSlider.h \
-    threads.h
+    threads.h \
 
 FORMS += \
     mainwindow.ui

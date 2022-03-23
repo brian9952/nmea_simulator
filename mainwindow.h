@@ -33,6 +33,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+
 private slots:
     void openPortConfigDialog();
     void openNMEADialog(int i);
@@ -47,6 +48,7 @@ private:
         QCheckBox *checkboxData;
     };
     QVector<RunningData*> dataFrontend;
+    QVector<int> addedDataId;
 
     struct SerialPortConfigs {
         QString portName;
@@ -108,11 +110,11 @@ private:
     void createAction();
     void createConnection();
     void createDialog();
-    void createTimers();
+    //void createTimers();
 
     // Data Execution Functions
-    QTimer *sendTimer;
-    void sendData();
+    //QTimer *sendTimer;
+    //void sendData();
 
     // DIALOGS
     SerialPortDialog *serialPortDialog;
