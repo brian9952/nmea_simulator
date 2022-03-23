@@ -36,7 +36,9 @@ void SendDataThreads::sendData(){
     for(int i = 0; i < addedDataId.length(); i++){
         switch(addedDataId.at(i)){
             case 0:
-                dataStr.append(dataObj->createAAMString());
+                if(dataObj->dataStatus[0]->isEnabled &&
+                        dataObj->dataStatus[0]->isAdded)
+                    dataStr.append(dataObj->createAAMString());
                 break;
             default:
                 break;

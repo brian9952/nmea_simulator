@@ -1,5 +1,6 @@
 #include "aamdialog.h"
 #include<QtWidgets>
+#include<iostream>
 
 AAMDialog::AAMDialog(QWidget *parent) : QDialog(parent)
 {
@@ -61,9 +62,9 @@ void AAMDialog::createLayout(){
     setLayout(layout);
 }
 
-void AAMDialog::applyConfigs(){
-    arrivalCircleRadius_firstRange = acrRangeSlider->GetLowerValue() / 100;
-    arrivalCircleRadius_lastRange = acrRangeSlider->GetUpperValue() / 100;
+void AAMDialog::applyConfigs(nmeaData *data){
+    data->aam->arrivalCircleRadius_firstRange = 1.0 * acrRangeSlider->GetLowerValue() / 100;
+    data->aam->arrivalCircleRadius_lastRange = 1.0 * acrRangeSlider->GetUpperValue() / 100;
 }
 
 void AAMDialog::createConnection(){

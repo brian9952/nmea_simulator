@@ -38,6 +38,7 @@ private slots:
     void openPortConfigDialog();
     void openNMEADialog(int i);
     void addData(int i);
+    void changeDataState();
 
 private:
 
@@ -86,6 +87,7 @@ private:
     // signal mapper
     QSignalMapper *dataDialogMapper;
     QSignalMapper *addDataMapper;
+    QSignalMapper *checkboxMapper;
 
     // data Objects
     struct NMEADataList {

@@ -176,35 +176,15 @@ void MainWindow::createConnection(){
     connect(addDataMapper, SIGNAL(mapped(int)),
             this, SLOT(addData(int)));
 
+    // checkbox signal mapper
+    checkboxMapper = new QSignalMapper;
+
 }
 
 void MainWindow::createDialog(){
-    aamDialog = new AAMDialog;
+    aamDialog = new AAMDialog();
     bodDialog = new BODDialog;
 }
-
-//void MainWindow::createTimers(){
-//    sendTimer = new QTimer(this);
-//    connect(sendTimer, &QTimer::timeout, this, &MainWindow::sendData);
-//    sendTimer->start(1000);
-//}
-
-// Data Execution Functions
-//void MainWindow::sendData(){
-//    QString dataStr;
-//    if(dataFrontend.length() == 0)
-//        return;
-//
-//    for(int i = 0; i < dataFrontend.length(); i++){
-//        switch(dataFrontend[i]->id){
-//            case 0:
-//                dataStr.append(data->createAAMString());
-//                break;
-//        }
-//    }
-//    // send data to thread
-//    sendThread->sendData(dataStr);
-//}
 
 // Generic Functions
 QString MainWindow::convertAbbvr(const QString &str){
@@ -245,6 +225,10 @@ void MainWindow::openNMEADialog(int i){
     }
 }
 
+void MainWindow::changeDataState(){
+    std::cout << "WOY COK" << std::endl;
+}
+
 void MainWindow::addData(int index){
     RunningData *newObj = new RunningData;
     QLabel *newDataLabel = new QLabel(convertAbbvr(data->dataStatus[index]->dataNames));
@@ -254,6 +238,11 @@ void MainWindow::addData(int index){
     newObj->id = index;
     newObj->labelData = newDataLabel;
     newObj->checkboxData = newDataCheckbox;
+
+    // change data state
+    data->dataStatus[index]->isAdded = true;
+    connect(newObj->checkboxData, &QCheckBox::stateChanged, this, &MainWindow::changeDataState);
+
     dataFrontend.push_back(newObj);
     addedDataId.push_back(index);
 
@@ -266,9 +255,7 @@ void MainWindow::addData(int index){
     // get configs
     switch(index){
         case 0:
-            aamDialog->applyConfigs();
-            data->aam->arrivalCircleRadius_firstRange = aamDialog->arrivalCircleRadius_firstRange;
-            data->aam->arrivalCircleRadius_lastRange = aamDialog->arrivalCircleRadius_lastRange;
+            aamDialog->applyConfigs(data);
             sendThread->setAddedData(addedDataId);
             aamDialog->close();
     }

@@ -3,6 +3,7 @@
 
 #include "libs/RangeSlider.h"
 #include <QDialog>
+#include "nmeadata.h"
 
 class QLabel;
 class QLineEdit;
@@ -22,12 +23,8 @@ public:
     QPushButton *addButton;
     QPushButton *cancelButton;
 
-    // config
-    float arrivalCircleRadius_firstRange;
-    float arrivalCircleRadius_lastRange;
-
     // functions
-    void applyConfigs();
+    void applyConfigs(nmeaData *data);
 
 private slots:
     void syncHighValue(int val);

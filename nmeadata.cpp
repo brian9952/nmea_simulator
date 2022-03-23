@@ -17,6 +17,7 @@ nmeaData::nmeaData()
         "Rate of Turn"
     };
 
+    // data status init
     for(int i = 0; i < dataNumbers; i++){
         dataStruct *newData = new dataStruct;
         newData->dataNames = names[i];
@@ -26,6 +27,11 @@ nmeaData::nmeaData()
         dataStatus.push_back(newData);
     }
 
+}
+
+float nmeaData::roundFloat(float val){
+    float new_val = (int) (val * 100 + 0.5);
+    return (float) new_val / 100;
 }
 
 float nmeaData::randomFloat(float a, float b){
@@ -43,7 +49,7 @@ QString nmeaData::createAAMString(){
     float rand = randomFloat(aam->arrivalCircleRadius_firstRange, aam->arrivalCircleRadius_lastRange);
 
     // append to str
-    str.append(QString::number(rand));
+    str.append(QString::number(roundFloat(rand)));
     str.append(",N,WPTNME,*43");
 
     return str;
