@@ -225,8 +225,15 @@ void MainWindow::openNMEADialog(int i){
     }
 }
 
-void MainWindow::changeDataState(){
-    std::cout << "WOY COK" << std::endl;
+void MainWindow::changeDataState(int index){
+    switch(index){
+        case 0:
+            if(data->dataStatus[0]->isEnabled == false){
+                data->dataStatus[0]->isEnabled = true;
+            }else{
+                data->dataStatus[0]->isEnabled = false;
+            }
+    }
 }
 
 void MainWindow::addData(int index){
@@ -241,7 +248,9 @@ void MainWindow::addData(int index){
 
     // change data state
     data->dataStatus[index]->isAdded = true;
-    connect(newObj->checkboxData, &QCheckBox::stateChanged, this, &MainWindow::changeDataState);
+    connect(newObj->checkboxData, SIGNAL(stateChanged(int)), checkboxMapper, SLOT(map()));
+    checkboxMapper->setMapping(newObj->checkboxData, index);
+    connect(checkboxMapper, SIGNAL(mapped(int)), this, SLOT(changeDataState(int)));
 
     dataFrontend.push_back(newObj);
     addedDataId.push_back(index);
