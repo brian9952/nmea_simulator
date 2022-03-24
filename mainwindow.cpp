@@ -173,6 +173,7 @@ void MainWindow::createConnection(){
     connect(aamDialog->addButton, SIGNAL(clicked()),
             addDataMapper, SLOT(map()));
     addDataMapper->setMapping(aamDialog->addButton, 0);
+    addDataMapper->setMapping(bodDialog->addButton, 1;);
     connect(addDataMapper, SIGNAL(mapped(int)),
             this, SLOT(addData(int)));
 
@@ -267,6 +268,10 @@ void MainWindow::addData(int index){
             aamDialog->applyConfigs(data);
             sendThread->setAddedData(addedDataId);
             aamDialog->close();
+        case 1:
+            bodDialog->applyConfigs(data);
+            sendThread->setAddedData(addedDataId);
+            bodDialog->close();
     }
 }
 

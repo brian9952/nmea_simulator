@@ -30,6 +30,7 @@ void SendDataThreads::setAddedData(QVector<int> &addedDataId_param){
 
 void SendDataThreads::sendData(){
     QString dataStr;
+    int dataNum;
     if(addedDataId.length() == 0)
         return;
 
@@ -37,12 +38,17 @@ void SendDataThreads::sendData(){
         switch(addedDataId.at(i)){
             case 0:
                 if(dataObj->dataStatus[0]->isEnabled &&
-                        dataObj->dataStatus[0]->isAdded)
+                        dataObj->dataStatus[0]->isAdded){
                     dataStr.append(dataObj->createAAMString());
+                    dataNum++;
+                }
                 break;
             default:
                 break;
         }
     }
-    sendConsole->appendPlainText(dataStr);
+
+    if(dataNum > 0)
+        sendConsole->appendPlainText(dataStr);
+    dataNum = 0;
 }

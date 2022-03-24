@@ -54,3 +54,7 @@ QString nmeaData::createAAMString(){
 
     return str;
 }
+
+QString nmeaData::createBODString(){
+    // todo
+}

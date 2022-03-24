@@ -53,6 +53,7 @@ public:
 
     // get string data
     QString createAAMString();
+    QString createBODString();
 
 private:
     float randomFloat(float a, float b);

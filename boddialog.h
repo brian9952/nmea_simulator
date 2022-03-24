@@ -3,6 +3,7 @@
 
 #include "libs/RangeSlider.h"
 #include <QDialog>
+#include "nmeadata.h"
 
 class QLabel;
 class QComboBox;
@@ -15,6 +16,7 @@ class BODDialog : public QDialog
 
 public:
     BODDialog(QWidget *parent = nullptr);
+    void applyConfigs(nmeaData *data);
 
 private slots:
     void bdtSyncLowValue(int val);

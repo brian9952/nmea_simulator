@@ -38,7 +38,7 @@ private slots:
     void openPortConfigDialog();
     void openNMEADialog(int i);
     void addData(int i);
-    void changeDataState();
+    void changeDataState(int index);
 
 private:
 

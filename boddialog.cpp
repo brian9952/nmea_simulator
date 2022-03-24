@@ -96,6 +96,16 @@ void BODDialog::createConnection(){
             this, SLOT(close()));
 }
 
+void BODDialog::applyConfigs(nmeaData *data){
+    // bearing degrees true
+    data->bod->bearingDegreesTrue_firstRange = bdtRangeSlider->GetLowerValue();
+    data->bod->bearingDegreesTrue_lastRange = bdtRangeSlider->GetUpperValue();
+
+    // bearing degrees magnetic
+    data->bod->bearingDegreesMagn_firstRange = bdmRangeSlider->GetLowerValue();
+    data->bod->bearingDegreesMagn_lastRange = bdmRangeSlider->GetUpperValue();
+}
+
 // slots
 void BODDialog::bdtSyncLowValue(int val){
     QString valStr;
