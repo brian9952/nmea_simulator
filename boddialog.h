@@ -18,6 +18,8 @@ public:
     BODDialog(QWidget *parent = nullptr);
     void applyConfigs(nmeaData *data);
 
+    QPushButton *addButton;
+
 private slots:
     void bdtSyncLowValue(int val);
     void bdtSyncHighValue(int val);
@@ -38,7 +40,6 @@ private:
     RangeSlider *bdtRangeSlider;
     RangeSlider *bdmRangeSlider;
     QComboBox *durationCombobox;
-    QPushButton *addButton;
     QPushButton *cancelButton;
 
 };

@@ -57,7 +57,8 @@ public:
 
 private:
     float randomFloat(float a, float b);
-    float roundFloat(float val);
+    float roundFloat2(float val);
+    float roundFloat1(float val);
 
 };
 

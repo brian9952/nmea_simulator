@@ -170,15 +170,23 @@ void MainWindow::createConnection(){
 
     // data add
     addDataMapper = new QSignalMapper;
+
+    // aamdialog
     connect(aamDialog->addButton, SIGNAL(clicked()),
             addDataMapper, SLOT(map()));
     addDataMapper->setMapping(aamDialog->addButton, 0);
-    addDataMapper->setMapping(bodDialog->addButton, 1;);
+
+    // bodDialog
+    connect(bodDialog->addButton, SIGNAL(clicked()),
+            addDataMapper, SLOT(map()));
+    addDataMapper->setMapping(bodDialog->addButton, 1);
+
     connect(addDataMapper, SIGNAL(mapped(int)),
             this, SLOT(addData(int)));
 
     // checkbox signal mapper
     checkboxMapper = new QSignalMapper;
+    connect(checkboxMapper, SIGNAL(mapped(int)), this, SLOT(changeDataState(int)));
 
 }
 
@@ -227,13 +235,10 @@ void MainWindow::openNMEADialog(int i){
 }
 
 void MainWindow::changeDataState(int index){
-    switch(index){
-        case 0:
-            if(data->dataStatus[0]->isEnabled == false){
-                data->dataStatus[0]->isEnabled = true;
-            }else{
-                data->dataStatus[0]->isEnabled = false;
-            }
+    if(data->dataStatus[index]->isEnabled == false){
+        data->dataStatus[index]->isEnabled = true;
+    }else{
+        data->dataStatus[index]->isEnabled = false;
     }
 }
 
@@ -251,7 +256,6 @@ void MainWindow::addData(int index){
     data->dataStatus[index]->isAdded = true;
     connect(newObj->checkboxData, SIGNAL(stateChanged(int)), checkboxMapper, SLOT(map()));
     checkboxMapper->setMapping(newObj->checkboxData, index);
-    connect(checkboxMapper, SIGNAL(mapped(int)), this, SLOT(changeDataState(int)));
 
     dataFrontend.push_back(newObj);
     addedDataId.push_back(index);
@@ -268,10 +272,14 @@ void MainWindow::addData(int index){
             aamDialog->applyConfigs(data);
             sendThread->setAddedData(addedDataId);
             aamDialog->close();
+            break;
         case 1:
             bodDialog->applyConfigs(data);
             sendThread->setAddedData(addedDataId);
             bodDialog->close();
+            break;
+        default:
+            break;
     }
 }
 
