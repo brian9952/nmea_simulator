@@ -10,13 +10,18 @@ class QThread;
 class QLabel;
 class QCheckBox;
 class nmeaData;
+struct RunningData {
+    int id;
+    QLabel *labelData;
+    QCheckBox *checkboxData;
+};
 
 class SendDataThreads: public QObject
 {
     Q_OBJECT
 public:
     explicit SendDataThreads(QPlainTextEdit *sendConsole_param, nmeaData *dataObj_param, QObject *parent = nullptr);
-    void setAddedData(QVector<int> &addedDataId_param);
+    void setAddedData(QVector<RunningData*> &ptr);
 
 private slots:
     void startTimer();
@@ -29,7 +34,7 @@ private:
     QThread *thread;
 
     // data identification
-    QVector<int> addedDataId;
+    QVector<RunningData*> dataFrontendPtr;
 
     // nmea data obj
     nmeaData *dataObj;

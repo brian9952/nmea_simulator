@@ -41,13 +41,6 @@ private slots:
     void changeDataState(int index);
 
 private:
-
-    // data structures
-    struct RunningData {
-        int id;
-        QLabel *labelData;
-        QCheckBox *checkboxData;
-    };
     QVector<RunningData*> dataFrontend;
 
     struct SerialPortConfigs {

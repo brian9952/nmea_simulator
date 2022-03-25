@@ -264,7 +264,6 @@ void MainWindow::addData(int index){
     checkboxMapper->setMapping(newObj->checkboxData, index);
 
     dataFrontend.push_back(newObj);
-    addedDataId.push_back(index);
 
     QHBoxLayout *newDataLayout = new QHBoxLayout;
     newDataLayout->addWidget(newObj->labelData);
@@ -276,13 +275,13 @@ void MainWindow::addData(int index){
     switch(index){
         case 0:
             aamDialog->applyConfigs(data);
-            sendThread->setAddedData(addedDataId);
+            sendThread->setAddedData(dataFrontend);
             data->dataStatus[index]->duration = data->aam->duration;
             aamDialog->close();
             break;
         case 1:
             bodDialog->applyConfigs(data);
-            sendThread->setAddedData(addedDataId);
+            sendThread->setAddedData(dataFrontend);
             data->dataStatus[index]->duration = data->bod->duration;
             bodDialog->close();
             break;

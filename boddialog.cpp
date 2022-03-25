@@ -46,14 +46,15 @@ void BODDialog::createLayout(){
     durationLabel = new QLabel(tr("Duration: "));
 
     // duration combobox
-    QString *labelStr;
-    durationCombobox = new QComboBox();
-    for(int i = 0; i < 60; i++){
-        if(i % 5 == 0){
-            labelStr = new QString(QString::number(i) + " second(s)");
-            durationCombobox->addItem(*labelStr);
-        }
-    }
+    // duration combobox
+    durationCombobox = new QComboBox;
+    durationCombobox->addItem("30 Seconds");
+    durationCombobox->addItem("1 Minutes");
+    durationCombobox->addItem("5 Minutes");
+    durationCombobox->addItem("10 Minutes");
+    durationCombobox->addItem("30 Minutes");
+    durationCombobox->addItem("60 Minutes");
+    durationCombobox->addItem("Infinite");
 
     QVBoxLayout *durationLayout = new QVBoxLayout;
     durationLayout->addWidget(durationLabel);
@@ -104,6 +105,23 @@ void BODDialog::applyConfigs(nmeaData *data){
     // bearing degrees magnetic
     data->bod->bearingDegreesMagn_firstRange = bdmRangeSlider->GetLowerValue();
     data->bod->bearingDegreesMagn_lastRange = bdmRangeSlider->GetUpperValue();
+
+    if(durationCombobox->currentText() == "30 Seconds"){
+        data->bod->duration = 30;
+    }else if(durationCombobox->currentText() == "1 Minutes"){
+        data->bod->duration = 60;
+    }else if(durationCombobox->currentText() == "5 Minutes"){
+        data->bod->duration = 300;
+    }else if(durationCombobox->currentText() == "10 Minutes"){
+        data->bod->duration = 600;
+    }else if(durationCombobox->currentText() == "30 Minutes"){
+        data->bod->duration = 1800;
+    }else if(durationCombobox->currentText() == "60 Minutes"){
+        data->bod->duration = 3600;
+    }else if(durationCombobox->currentText() == "Infinite"){
+        data->bod->duration = -1;
+    }
+
 }
 
 // slots
