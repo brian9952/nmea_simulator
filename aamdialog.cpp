@@ -26,14 +26,14 @@ void AAMDialog::createLayout(){
     durationLabel = new QLabel(tr("Duration: "));
 
     // duration combobox
-    QString *labelStr;
-    durationCombobox = new QComboBox();
-    for(int i = 0; i < 60; i++){
-        if(i % 5 == 0){
-            labelStr = new QString(QString::number(i) + " seconds");
-            durationCombobox->addItem(*labelStr);
-        }
-    }
+    durationCombobox = new QComboBox;
+    durationCombobox->addItem("30 Seconds");
+    durationCombobox->addItem("1 Minutes");
+    durationCombobox->addItem("5 Minutes");
+    durationCombobox->addItem("10 Minutes");
+    durationCombobox->addItem("30 Minutes");
+    durationCombobox->addItem("60 Minutes");
+    durationCombobox->addItem("Infinite");
 
     // push buttons
     addButton = new QPushButton(tr("Add"));
@@ -65,6 +65,22 @@ void AAMDialog::createLayout(){
 void AAMDialog::applyConfigs(nmeaData *data){
     data->aam->arrivalCircleRadius_firstRange = 1.0 * acrRangeSlider->GetLowerValue() / 100;
     data->aam->arrivalCircleRadius_lastRange = 1.0 * acrRangeSlider->GetUpperValue() / 100;
+
+    if(durationCombobox->currentText() == "30 Seconds"){
+        data->aam->duration = 30;
+    }else if(durationCombobox->currentText() == "1 Minutes"){
+        data->aam->duration = 60;
+    }else if(durationCombobox->currentText() == "5 Minutes"){
+        data->aam->duration = 300;
+    }else if(durationCombobox->currentText() == "10 Minutes"){
+        data->aam->duration = 600;
+    }else if(durationCombobox->currentText() == "30 Minutes"){
+        data->aam->duration = 1800;
+    }else if(durationCombobox->currentText() == "60 Minutes"){
+        data->aam->duration = 3600;
+    }else if(durationCombobox->currentText() == "Infinite"){
+        data->aam->duration = -1;
+    }
 }
 
 void AAMDialog::createConnection(){

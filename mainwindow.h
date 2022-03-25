@@ -49,7 +49,6 @@ private:
         QCheckBox *checkboxData;
     };
     QVector<RunningData*> dataFrontend;
-    QVector<int> addedDataId;
 
     struct SerialPortConfigs {
         QString portName;
@@ -88,6 +87,7 @@ private:
     QSignalMapper *dataDialogMapper;
     QSignalMapper *addDataMapper;
     QSignalMapper *checkboxMapper;
+    QSignalMapper *durationMapper;
 
     // data Objects
     struct NMEADataList {

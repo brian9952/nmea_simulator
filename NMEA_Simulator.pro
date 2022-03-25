@@ -9,6 +9,7 @@ CONFIG += c++11 debug
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    dptdialog.cpp \
     main.cpp \
     nmeadata.cpp \
     mainwindow.cpp \
@@ -20,6 +21,7 @@ SOURCES += \
     startupdialog.cpp \
 
 HEADERS += \
+    dptdialog.h \
     nmeadata.h \
     mainwindow.h \
     serialportdialog.h \

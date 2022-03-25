@@ -21,6 +21,7 @@ public:
 private slots:
     void startTimer();
     void sendData();
+    void removeTopLine();
 
 private:
     QPlainTextEdit *sendConsole;

@@ -188,6 +188,10 @@ void MainWindow::createConnection(){
     checkboxMapper = new QSignalMapper;
     connect(checkboxMapper, SIGNAL(mapped(int)), this, SLOT(changeDataState(int)));
 
+    // duration signal mapper
+    durationMapper = new QSignalMapper;
+    connect(durationMapper, SIGNAL(mapped(int)), this, SLOT(changeDataState(int)));
+
 }
 
 void MainWindow::createDialog(){
@@ -239,6 +243,7 @@ void MainWindow::changeDataState(int index){
         data->dataStatus[index]->isEnabled = true;
     }else{
         data->dataStatus[index]->isEnabled = false;
+        data->dataStatus[index]->sec = 0;
     }
 }
 
@@ -254,6 +259,7 @@ void MainWindow::addData(int index){
 
     // change data state
     data->dataStatus[index]->isAdded = true;
+    data->dataStatus[index]->sec = 0;
     connect(newObj->checkboxData, SIGNAL(stateChanged(int)), checkboxMapper, SLOT(map()));
     checkboxMapper->setMapping(newObj->checkboxData, index);
 
@@ -271,11 +277,13 @@ void MainWindow::addData(int index){
         case 0:
             aamDialog->applyConfigs(data);
             sendThread->setAddedData(addedDataId);
+            data->dataStatus[index]->duration = data->aam->duration;
             aamDialog->close();
             break;
         case 1:
             bodDialog->applyConfigs(data);
             sendThread->setAddedData(addedDataId);
+            data->dataStatus[index]->duration = data->bod->duration;
             bodDialog->close();
             break;
         default:
