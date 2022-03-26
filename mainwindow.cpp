@@ -271,6 +271,9 @@ void MainWindow::addData(int index){
 
     nmeaDataLayout->insertLayout(nmeaDataLayout->count()-1, newDataLayout);
 
+    // disable button
+    dataObjects[index]->dataAddButton->setDisabled(1);
+
     // get configs
     switch(index){
         case 0:

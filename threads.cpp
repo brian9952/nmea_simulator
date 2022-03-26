@@ -42,11 +42,6 @@ void SendDataThreads::sendData(){
     if(dataFrontendPtr.length() == 0)
         return;
 
-    //for(int i = 0; i < dataFrontendPtr.length(); i++){
-    //    std::cout << dataFrontendPtr[i]->id << " - ";
-    //}
-    //std::cout << std::endl;
-
     for(int i = 0; i < dataFrontendPtr.length(); i++){
         switch(dataFrontendPtr[i]->id){
             case 0:
@@ -83,10 +78,10 @@ void SendDataThreads::sendData(){
         }else{
             dataObj->dataLineNum++;
         }
+    }
 
 
     if(dataNum > 0){
         sendConsole->appendPlainText(dataStr);
-    }
     }
 }
