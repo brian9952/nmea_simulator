@@ -87,7 +87,8 @@ OBJECTS       = dptdialog.o \
 		moc_RangeSlider.o \
 		moc_threads.o \
 		moc_startupdialog.o
-DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
+DIST          = images/cancel_icon.png \
+		/usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/common/unix.conf \
 		/usr/lib/qt/mkspecs/common/linux.conf \
 		/usr/lib/qt/mkspecs/common/sanitize.conf \

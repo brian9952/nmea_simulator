@@ -80,11 +80,10 @@ void MainWindow::createCentralWindow(){
     // add title
     QHBoxLayout *nmeaDataTitleLayout = new QHBoxLayout;
     QLabel *nmeaDataTitle = new QLabel(tr("NMEA Data:"));
-    nmeaDataTitle->setFixedWidth(160);
+    //nmeaDataTitle->setFixedWidth(160);
     nmeaDataTitleLayout->addWidget(nmeaDataTitle);
 
     // insert layout into nmea data layout
-    nmeaDataLayout->setGeometry(QRect(0, 0, 80, 0));
     nmeaDataLayout->insertLayout(nmeaDataLayout->count() - 1, nmeaDataTitleLayout);
 
     // add tab widget
@@ -129,7 +128,6 @@ void MainWindow::createNMEAWidgets(){
         innerLayout->addWidget(label);
         innerLayout->addStretch();
         innerLayout->addWidget(button);
-        //innerLayout->addSpacing(15);
 
         // vector processing
         NMEADataList *dataList = new NMEADataList;
@@ -252,10 +250,18 @@ void MainWindow::addData(int index){
     QLabel *newDataLabel = new QLabel(convertAbbvr(data->dataStatus[index]->dataNames));
     QCheckBox *newDataCheckbox = new QCheckBox();
 
+    // cancel button
+    QPushButton *newCancelButton = new QPushButton();
+    QIcon icon;
+    icon.addFile("images/cancel_icon.png");
+    newCancelButton->setIcon(icon);
+    newCancelButton->setIconSize(QSize(10, 10));
+
     // insert layout
     newObj->id = index;
     newObj->labelData = newDataLabel;
     newObj->checkboxData = newDataCheckbox;
+    newObj->cancelButton = newCancelButton;
 
     // change data state
     data->dataStatus[index]->isAdded = true;
@@ -268,6 +274,7 @@ void MainWindow::addData(int index){
     QHBoxLayout *newDataLayout = new QHBoxLayout;
     newDataLayout->addWidget(newObj->labelData);
     newDataLayout->addWidget(newObj->checkboxData);
+    newDataLayout->addWidget(newObj->cancelButton);
 
     nmeaDataLayout->insertLayout(nmeaDataLayout->count()-1, newDataLayout);
 

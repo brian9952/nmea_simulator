@@ -8,12 +8,14 @@ class QPlainTextEdit;
 class QTimer;
 class QThread;
 class QLabel;
+class QPushButton;
 class QCheckBox;
 class nmeaData;
 struct RunningData {
     int id;
     QLabel *labelData;
     QCheckBox *checkboxData;
+    QPushButton *cancelButton;
 };
 
 class SendDataThreads: public QObject
