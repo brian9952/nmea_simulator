@@ -43,34 +43,26 @@ void SendDataThreads::sendData(){
         return;
 
     for(int i = 0; i < dataFrontendPtr.length(); i++){
-        switch(dataFrontendPtr[i]->id){
-            case 0:
-                std::cout << "sending aam = " <<
-                          dataObj->dataStatus[0]->isEnabled << " = " << i << std::endl;
-                if(dataObj->dataStatus[0]->isEnabled &&
-                        dataObj->dataStatus[0]->isAdded &&
-                        dataObj->dataStatus[0]->sec != dataObj->dataStatus[0]->duration){
+        if(dataObj->dataStatus[i]->isEnabled &&
+                dataObj->dataStatus[i]->isAdded &&
+                dataObj->dataStatus[i]->sec !=
+                dataObj->dataStatus[i]->duration){
+
+            switch(dataFrontendPtr[i]->id){
+                case 0:
                     dataStr.append(dataObj->createAAMString());
-                    dataNum++;
-                    dataObj->dataStatus[0]->sec++;
-                }else{
-                    dataFrontendPtr[i]->checkboxData->setChecked(false);
-                }
-                break;
-            case 1:
-                std::cout << "sending bod = " <<
-                          dataObj->dataStatus[1]->isEnabled << " = " << i << std::endl;
-                if(dataObj->dataStatus[1]->isEnabled &&
-                        dataObj->dataStatus[1]->isAdded &&
-                        dataObj->dataStatus[1]->sec != dataObj->dataStatus[1]->duration){
+                    break;
+                case 1:
                     dataStr.append(dataObj->createBODString());
-                    dataNum++;
-                    dataObj->dataStatus[1]->sec++;
-                }else{
-                    dataFrontendPtr[i]->checkboxData->setChecked(false);
-                }
-            default:
-                break;
+                    break;
+                default:
+                    break;
+            }
+            dataNum++;
+            dataObj->dataStatus[i]->sec++;
+
+        }else{
+            dataFrontendPtr[i]->checkboxData->setChecked(false);
         }
 
         if(dataObj->dataLineNum > 10){
@@ -78,6 +70,7 @@ void SendDataThreads::sendData(){
         }else{
             dataObj->dataLineNum++;
         }
+
     }
 
 

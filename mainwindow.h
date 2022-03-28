@@ -81,6 +81,7 @@ private:
     QSignalMapper *addDataMapper;
     QSignalMapper *checkboxMapper;
     QSignalMapper *durationMapper;
+    QSignalMapper *cancelMapper;
 
     // data Objects
     struct NMEADataList {

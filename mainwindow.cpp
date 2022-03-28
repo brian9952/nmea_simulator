@@ -256,6 +256,7 @@ void MainWindow::addData(int index){
     icon.addFile("images/cancel_icon.png");
     newCancelButton->setIcon(icon);
     newCancelButton->setIconSize(QSize(10, 10));
+    newCancelButton->setFixedSize(QSize(16, 16));
 
     // insert layout
     newObj->id = index;
@@ -265,9 +266,13 @@ void MainWindow::addData(int index){
 
     // change data state
     data->dataStatus[index]->isAdded = true;
+    std::cout << data->dataStatus[index]->isAdded << std::endl;
     data->dataStatus[index]->sec = 0;
     connect(newObj->checkboxData, SIGNAL(stateChanged(int)), checkboxMapper, SLOT(map()));
     checkboxMapper->setMapping(newObj->checkboxData, index);
+
+    // create cancel connection (TODO)
+    connect(newObj->cancelButton, SIGNAL(clicked(bool)), cancelMapper, SLOT(map()));
 
     dataFrontend.push_back(newObj);
 
