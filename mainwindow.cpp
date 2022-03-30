@@ -250,7 +250,25 @@ void MainWindow::changeDataState(int index){
 }
 
 void MainWindow::deleteRunningData(int index){
-    std::cout << index << std::endl;
+    dataFrontend[index]->id = 0;
+
+    // delete label
+    delete dataFrontend[index]->labelData;
+
+    // delete checkbox
+    delete dataFrontend[index]->checkboxData;
+
+    // delete delete button
+    delete dataFrontend[index]->cancelButton;
+
+    dataFrontend.erase(dataFrontend.begin() + index);
+
+    // send the data to threads
+    sendThread->setAddedData(dataFrontend);
+
+    // edit data struct
+    data->dataStatus[index]->isAdded = false;
+    data->dataStatus[index]->isEnabled = false;
 }
 
 void MainWindow::addData(int index){

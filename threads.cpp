@@ -39,6 +39,7 @@ void SendDataThreads::removeTopLine(){
 void SendDataThreads::sendData(){
     QString dataStr;
     int dataNum = 0;
+    std::cout << dataFrontendPtr.length() << std::endl;
     if(dataFrontendPtr.length() == 0)
         return;
 
