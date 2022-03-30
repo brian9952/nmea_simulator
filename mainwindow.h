@@ -39,6 +39,7 @@ private slots:
     void openNMEADialog(int i);
     void addData(int i);
     void changeDataState(int index);
+    void deleteRunningData(int index);
 
 private:
     QVector<RunningData*> dataFrontend;

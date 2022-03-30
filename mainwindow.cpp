@@ -190,6 +190,10 @@ void MainWindow::createConnection(){
     durationMapper = new QSignalMapper;
     connect(durationMapper, SIGNAL(mapped(int)), this, SLOT(changeDataState(int)));
 
+    // cancel button signal mapper
+    cancelMapper = new QSignalMapper;
+    connect(cancelMapper, SIGNAL(mapped(int)), this, SLOT(deleteRunningData(int)));
+
 }
 
 void MainWindow::createDialog(){
@@ -245,6 +249,10 @@ void MainWindow::changeDataState(int index){
     }
 }
 
+void MainWindow::deleteRunningData(int index){
+    std::cout << index << std::endl;
+}
+
 void MainWindow::addData(int index){
     RunningData *newObj = new RunningData;
     QLabel *newDataLabel = new QLabel(convertAbbvr(data->dataStatus[index]->dataNames));
@@ -271,8 +279,9 @@ void MainWindow::addData(int index){
     connect(newObj->checkboxData, SIGNAL(stateChanged(int)), checkboxMapper, SLOT(map()));
     checkboxMapper->setMapping(newObj->checkboxData, index);
 
-    // create cancel connection (TODO)
+    // create cancel connection
     connect(newObj->cancelButton, SIGNAL(clicked(bool)), cancelMapper, SLOT(map()));
+    cancelMapper->setMapping(newObj->cancelButton, index);
 
     dataFrontend.push_back(newObj);
 
