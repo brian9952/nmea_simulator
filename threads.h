@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QVector>
+#include "nmeadata.h"
 
 class QPlainTextEdit;
 class QTimer;
@@ -10,7 +11,7 @@ class QThread;
 class QLabel;
 class QPushButton;
 class QCheckBox;
-class nmeaData;
+
 struct RunningData {
     int id;
     QLabel *labelData;
@@ -22,8 +23,8 @@ class SendDataThreads: public QObject
 {
     Q_OBJECT
 public:
-    explicit SendDataThreads(QPlainTextEdit *sendConsole_param, nmeaData *dataObj_param, QObject *parent = nullptr);
-    void setAddedData(QVector<RunningData*> &ptr);
+    explicit SendDataThreads(QPlainTextEdit *sendConsole_param, QObject *parent = nullptr);
+    void setAddedData(QVector<RunningData*> &ptra, nmeaData *ptrb);
 
 private slots:
     void startTimer();
@@ -41,6 +42,8 @@ private:
     // nmea data obj
     nmeaData *dataObj;
 
+    void printStatus();
+    int searchDataId(int index);
 
 };
 

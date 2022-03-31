@@ -4,11 +4,9 @@
 #include <iostream>
 
 SendDataThreads::SendDataThreads(QPlainTextEdit *sendConsole_param,
-                                 nmeaData *dataObj_param,
                                  QObject *parent) :
     QObject(parent)
 {
-    dataObj = dataObj_param;
     sendConsole = sendConsole_param;
 
     timer = new QTimer(this);
@@ -24,8 +22,27 @@ void SendDataThreads::startTimer(){
     timer->start(1000);
 }
 
-void SendDataThreads::setAddedData(QVector<RunningData*> &ptr){
-    dataFrontendPtr = ptr;
+void SendDataThreads::printStatus(){
+    for(int i = 0; i < dataObj->dataStatus.length(); i++){
+        std::cout << dataObj->dataStatus[i]->dataNames.toStdString() << " Added = "
+                  << dataObj->dataStatus[i]->isAdded << ", Enabled = "
+                  << dataObj->dataStatus[i]->isEnabled << std::endl;
+    }
+}
+
+int SendDataThreads::searchDataId(int index){
+    for(int i = 0; i < dataObj->dataStatus.length(); i++){
+        if(dataObj->dataStatus[i]->id == index){
+            return i;
+        }
+    }
+    return -1;
+}
+
+void SendDataThreads::setAddedData(QVector<RunningData*> &ptra, nmeaData *ptrb){
+    dataFrontendPtr = ptra;
+    dataObj = ptrb;
+    //printStatus();
 }
 
 void SendDataThreads::removeTopLine(){
@@ -39,15 +56,17 @@ void SendDataThreads::removeTopLine(){
 void SendDataThreads::sendData(){
     QString dataStr;
     int dataNum = 0;
-    std::cout << dataFrontendPtr.length() << std::endl;
+    //std::cout << dataFrontendPtr.length() << std::endl;
     if(dataFrontendPtr.length() == 0)
         return;
 
     for(int i = 0; i < dataFrontendPtr.length(); i++){
-        if(dataObj->dataStatus[i]->isEnabled &&
-                dataObj->dataStatus[i]->isAdded &&
-                dataObj->dataStatus[i]->sec !=
-                dataObj->dataStatus[i]->duration){
+        // get data index
+        int index = searchDataId(dataFrontendPtr[i]->id);
+        if(dataObj->dataStatus[index]->isEnabled &&
+                dataObj->dataStatus[index]->isAdded &&
+                dataObj->dataStatus[index]->sec !=
+                dataObj->dataStatus[index]->duration){
 
             switch(dataFrontendPtr[i]->id){
                 case 0:
@@ -60,7 +79,7 @@ void SendDataThreads::sendData(){
                     break;
             }
             dataNum++;
-            dataObj->dataStatus[i]->sec++;
+            dataObj->dataStatus[index]->sec++;
 
         }else{
             dataFrontendPtr[i]->checkboxData->setChecked(false);

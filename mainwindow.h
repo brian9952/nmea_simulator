@@ -120,6 +120,7 @@ private:
 
     // generic functions
     QString convertAbbvr(const QString &str);
+    int searchDataId(int index);
 
     // threads
     SendDataThreads *sendThread;

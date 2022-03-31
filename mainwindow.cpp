@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
     //createTimers();
 
     // create threads
-    sendThread = new SendDataThreads(sendSerialConsole, data, this);
+    sendThread = new SendDataThreads(sendSerialConsole, this);
 }
 
 void MainWindow::createMenuBar(){
@@ -214,6 +214,15 @@ QString MainWindow::convertAbbvr(const QString &str){
     return new_str;
 }
 
+int MainWindow::searchDataId(int index){
+    for(int i = 0; i < dataFrontend.length(); i++){
+        if(dataFrontend[i]->id == index){
+            return i;
+        }
+    }
+    return -1;
+}
+
 // SLOTS
 void MainWindow::openPortConfigDialog(){
     serialPortDialog = new SerialPortDialog();
@@ -241,6 +250,7 @@ void MainWindow::openNMEADialog(int i){
 }
 
 void MainWindow::changeDataState(int index){
+    std::cout << data->dataStatus[index]->dataNames.toStdString() << "is changed!" << std::endl;
     if(data->dataStatus[index]->isEnabled == false){
         data->dataStatus[index]->isEnabled = true;
     }else{
@@ -250,25 +260,29 @@ void MainWindow::changeDataState(int index){
 }
 
 void MainWindow::deleteRunningData(int index){
-    dataFrontend[index]->id = 0;
+    int i = searchDataId(index);
+    dataFrontend[i]->id = -1;
 
     // delete label
-    delete dataFrontend[index]->labelData;
+    delete dataFrontend[i]->labelData;
 
     // delete checkbox
-    delete dataFrontend[index]->checkboxData;
+    delete dataFrontend[i]->checkboxData;
 
     // delete delete button
-    delete dataFrontend[index]->cancelButton;
+    delete dataFrontend[i]->cancelButton;
 
-    dataFrontend.erase(dataFrontend.begin() + index);
+    dataFrontend.erase(dataFrontend.begin() + i);
 
     // send the data to threads
-    sendThread->setAddedData(dataFrontend);
+    sendThread->setAddedData(dataFrontend, data);
 
     // edit data struct
     data->dataStatus[index]->isAdded = false;
     data->dataStatus[index]->isEnabled = false;
+
+    // enable button
+    dataObjects[index]->dataAddButton->setEnabled(1);
 }
 
 void MainWindow::addData(int index){
@@ -292,7 +306,6 @@ void MainWindow::addData(int index){
 
     // change data state
     data->dataStatus[index]->isAdded = true;
-    std::cout << data->dataStatus[index]->isAdded << std::endl;
     data->dataStatus[index]->sec = 0;
     connect(newObj->checkboxData, SIGNAL(stateChanged(int)), checkboxMapper, SLOT(map()));
     checkboxMapper->setMapping(newObj->checkboxData, index);
@@ -317,19 +330,20 @@ void MainWindow::addData(int index){
     switch(index){
         case 0:
             aamDialog->applyConfigs(data);
-            sendThread->setAddedData(dataFrontend);
             data->dataStatus[index]->duration = data->aam->duration;
             aamDialog->close();
             break;
         case 1:
             bodDialog->applyConfigs(data);
-            sendThread->setAddedData(dataFrontend);
             data->dataStatus[index]->duration = data->bod->duration;
             bodDialog->close();
             break;
         default:
             break;
     }
+
+    sendThread->setAddedData(dataFrontend, data);
+
 }
 
 MainWindow::~MainWindow()
