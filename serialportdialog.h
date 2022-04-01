@@ -18,9 +18,6 @@ class SerialPortDialog : public QDialog
 public:
     SerialPortDialog(QWidget *parent = nullptr);
 
-
-private:
-
     struct PortConfigs {
         QString portName = "/dev/ttyUSB0";
         QSerialPort::BaudRate baudRate = QSerialPort::Baud9600;
@@ -29,8 +26,11 @@ private:
         QSerialPort::StopBits stopBits = QSerialPort::OneStop;
         QSerialPort::FlowControl flowControl = QSerialPort::NoFlowControl;
     };
-    
+
     PortConfigs *configs;
+
+private:
+
     
     void createLayout();
     void createConnection();

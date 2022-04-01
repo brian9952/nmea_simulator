@@ -85,12 +85,6 @@ void SendDataThreads::sendData(){
             dataFrontendPtr[i]->checkboxData->setChecked(false);
         }
 
-        if(dataObj->dataLineNum > 10){
-            removeTopLine();
-        }else{
-            dataObj->dataLineNum++;
-        }
-
     }
 
 

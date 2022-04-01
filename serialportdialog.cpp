@@ -3,6 +3,7 @@
 #include <QtWidgets>
 #include <QSerialPort>
 #include <QSerialPortInfo>
+#include <iostream>
 
 SerialPortDialog::SerialPortDialog(QWidget *parent) : QDialog(parent)
 {
@@ -53,14 +54,13 @@ void SerialPortDialog::createLayout(){
     // create baud rate configs
     baudRateLabel = new QLabel(tr("Baud Rate: "));
     baudRateCombobox = new QComboBox();
-    baudRateCombobox->addItem("1200");
-    baudRateCombobox->addItem("2400");
-    baudRateCombobox->addItem("4800");
-    baudRateCombobox->addItem("9600");
-    baudRateCombobox->addItem("19200");
-    baudRateCombobox->addItem("38400");
-    baudRateCombobox->addItem("57600");
-    baudRateCombobox->addItem("115200");
+
+    // generate baud rate values
+    for(int i = 1200; i <= 115200; i*=2){
+        baudRateCombobox->addItem(QString::number(i));
+        if(i == 38400)
+            i += 19200;
+    }
     
     // create layout
     QHBoxLayout *baudRateLayout = new QHBoxLayout;
@@ -70,10 +70,9 @@ void SerialPortDialog::createLayout(){
     // create data bits configs
     dataBitsLabel = new QLabel(tr("Data Bits: "));
     dataBitsCombobox = new QComboBox();
-    dataBitsCombobox->addItem("5");
-    dataBitsCombobox->addItem("6");
-    dataBitsCombobox->addItem("7");
-    dataBitsCombobox->addItem("8");
+    for(int i = 5; i < 9; i++){
+        dataBitsCombobox->addItem(QString::number(i));
+    }
     
     // create layout
     QHBoxLayout *dataBitsLayout = new QHBoxLayout;
@@ -83,10 +82,10 @@ void SerialPortDialog::createLayout(){
     // create parity configs
     parityLabel = new QLabel(tr("Parity: "));
     parityCombobox = new QComboBox();
-    parityCombobox->addItem("No Parity");
-    parityCombobox->addItem("Even Parity");
-    parityCombobox->addItem("Odd Parity");
-    parityCombobox->addItem("Mark Parity");
+    parityCombobox->addItem("No Parity", QVariant(0));
+    parityCombobox->addItem("Even Parity", QVariant(1));
+    parityCombobox->addItem("Odd Parity", QVariant(2));
+    parityCombobox->addItem("Mark Parity", QVariant(3));
     
     // create layout
     QHBoxLayout *parityLayout = new QHBoxLayout;
@@ -96,9 +95,9 @@ void SerialPortDialog::createLayout(){
     // create stop bits configs
     stopBitsLabel = new QLabel(tr("Stop Bits: "));
     stopBitsCombobox = new QComboBox();
-    stopBitsCombobox->addItem("One Stop");
-    stopBitsCombobox->addItem("One and Half Stop");
-    stopBitsCombobox->addItem("Two Stop");
+    stopBitsCombobox->addItem("One Stop", QVariant(0));
+    stopBitsCombobox->addItem("One and Half Stop", QVariant(1));
+    stopBitsCombobox->addItem("Two Stop", QVariant(2));
     
     // create layout
     QHBoxLayout *stopBitsLayout = new QHBoxLayout;
@@ -108,9 +107,9 @@ void SerialPortDialog::createLayout(){
     // create flow control configs
     flowControlLabel = new QLabel(tr("Flow Control"));
     flowControlCombobox = new QComboBox();
-    flowControlCombobox->addItem("No Flow Control");
-    flowControlCombobox->addItem("Hardware Control");
-    flowControlCombobox->addItem("Software Control");
+    flowControlCombobox->addItem("No Flow Control", QVariant(0));
+    flowControlCombobox->addItem("Hardware Control", QVariant(1));
+    flowControlCombobox->addItem("Software Control", QVariant(2));
 
     // create layout
     QHBoxLayout *flowControlLayout = new QHBoxLayout;
@@ -150,27 +149,9 @@ void SerialPortDialog::createLayout(){
 
 }
 
-/*
 void SerialPortDialog::updateConfig(){
-    // set port name
-    configs->portName = portNameCombobox->itemData(portNameCombobox->currentIndex());
-
-    // set baud rate
-    QString baudRateString = baudRateCombobox->itemData(baudRateCombobox->currentIndex());
-
-    switch(baudRateString){
-        case "1200":
-            configs->baudRate = QSerialPort::Baud1200;
-        case "2400":
-            configs->baudRate = QSerialPort::Baud2400;
-        case "4800":
-            configs->baudRate = QSerialPort::Baud4800;
-        case "9600":
-            configs->baudRate = 
-    }
-
+    // put configs update here ...
 }
-*/
 
 void SerialPortDialog::createConnection(){
     // apply button connection

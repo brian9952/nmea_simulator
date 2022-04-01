@@ -60,10 +60,17 @@ void MainWindow::createCentralWindow(){
 
     // create terminal
     QWidget *consoleWidget = new QWidget;
+
+    // console config
     QLabel *sendLabel = new QLabel(tr("Transfer's Console"));
     sendSerialConsole = new QPlainTextEdit;
+    sendSerialConsole->setReadOnly(true);
+    sendSerialConsole->setMaximumBlockCount(500);
+
     QLabel *receiveLabel =  new QLabel(tr("Receive's Console"));
     receiveSerialConsole = new QPlainTextEdit;
+    receiveSerialConsole->setReadOnly(true);
+    receiveSerialConsole->setMaximumBlockCount(500);
 
     QVBoxLayout *innerConsoleLayout = new QVBoxLayout;
     innerConsoleLayout->addWidget(sendLabel);
@@ -318,6 +325,7 @@ void MainWindow::addData(int index){
 
     QHBoxLayout *newDataLayout = new QHBoxLayout;
     newDataLayout->addWidget(newObj->labelData);
+    newDataLayout->addStretch();
     newDataLayout->addWidget(newObj->checkboxData);
     newDataLayout->addWidget(newObj->cancelButton);
 

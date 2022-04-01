@@ -43,8 +43,8 @@ public:
 
     struct dataStruct {
         int id;
-        int duration;
         int sec;
+        int duration;
         QString dataNames;
         bool isEnabled;
         bool isAdded;
@@ -58,12 +58,10 @@ public:
     QString createBODString();
     QString createDPTString();
 
-    int dataLineNum = 0;
-
 private:
     float randomFloat(float a, float b);
-    float roundFloat2(float val);
     float roundFloat1(float val);
+    float roundFloat2(float val);
 
 };
 
