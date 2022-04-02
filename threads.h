@@ -13,11 +13,11 @@ class QLabel;
 class QPushButton;
 class QCheckBox;
 
-class SendDataThreads: public QObject
+class SerialThreads: public QObject
 {
     Q_OBJECT
 public:
-    explicit SendDataThreads(QPlainTextEdit *sendConsole_param, QStatusBar *status_param, QObject *parent = nullptr);
+    explicit SerialThreads(QPlainTextEdit *sendConsole_param, QPlainTextEdit *receiveConsole_param, QStatusBar *status_param, QObject *parent = nullptr);
     void setAddedData(QVector<RunningData*> &ptra, nmeaData *ptrb);
     void updateConfigs();
     void setPortConfigs(PortConfigs *conf_param);
@@ -27,9 +27,11 @@ private slots:
     void startTimer();
     void sendData();
     void removeTopLine();
+    void readData();
 
 private:
     QPlainTextEdit *sendConsole;
+    QPlainTextEdit *receiveConsole;
     QTimer *timer;
     QThread *thread;
     QStatusBar *status;
@@ -48,18 +50,6 @@ private:
     void closeSerialPort();
     void printStatus();
     int searchDataId(int index);
-
-};
-
-class ReceiveDataThreads : public QObject
-{
-    Q_OBJECT
-
-public:
-    explicit ReceiveDataThreads(QPlainTextEdit *receiveConsole_param, QObject *parent = nullptr);
-
-private:
-    QPlainTextEdit *receiveConsole;
 
 };
 

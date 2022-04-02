@@ -33,8 +33,8 @@ MainWindow::MainWindow(QWidget *parent)
     startupDialog->activateWindow();
 
     // create threads
-    sendThread = new SendDataThreads(sendSerialConsole, statusBar, this);
-    sendThread->setPortConfigs(conf);
+    serialThreads = new SerialThreads(sendSerialConsole, receiveSerialConsole, statusBar, this);
+    serialThreads->setPortConfigs(conf);
 }
 
 void MainWindow::createMenuBar(){
@@ -261,7 +261,7 @@ void MainWindow::openPortConfigDialog(){
 
 void MainWindow::startupConfig(){
     conf->portName = startupDialog->getConfig();
-    sendThread->setPortConfigs(conf);
+    serialThreads->setPortConfigs(conf);
     startupDialog->close();
 }
 
@@ -296,7 +296,7 @@ void MainWindow::applyPortConfigs(){
     QSerialPort::FlowControl flowControl = static_cast<QSerialPort::FlowControl>(val);
     conf->flowControl = flowControl;
 
-    sendThread->setPortConfigs(conf);
+    serialThreads->setPortConfigs(conf);
     serialPortDialog->close();
 }
 
@@ -343,7 +343,7 @@ void MainWindow::deleteRunningData(int index){
     dataFrontend.erase(dataFrontend.begin() + i);
 
     // send the data to threads
-    sendThread->setAddedData(dataFrontend, data);
+    serialThreads->setAddedData(dataFrontend, data);
 
     // edit data struct
     data->dataStatus[index]->isAdded = false;
@@ -411,12 +411,12 @@ void MainWindow::addData(int index){
             break;
     }
 
-    sendThread->setAddedData(dataFrontend, data);
+    serialThreads->setAddedData(dataFrontend, data);
 
 }
 
 MainWindow::~MainWindow()
 {
-    delete sendThread;
+    delete serialThreads;
     delete ui;
 }

@@ -129,7 +129,7 @@ private:
     int searchDataId(int index);
 
     // threads
-    SendDataThreads *sendThread;
+    SerialThreads *serialThreads;
 
     Ui::MainWindow *ui;
 };

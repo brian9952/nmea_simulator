@@ -21,36 +21,37 @@
 QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
-struct qt_meta_stringdata_SendDataThreads_t {
-    QByteArrayData data[5];
-    char stringdata0[51];
+struct qt_meta_stringdata_SerialThreads_t {
+    QByteArrayData data[6];
+    char stringdata0[58];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_SendDataThreads_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_SerialThreads_t, stringdata0) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
-static const qt_meta_stringdata_SendDataThreads_t qt_meta_stringdata_SendDataThreads = {
+static const qt_meta_stringdata_SerialThreads_t qt_meta_stringdata_SerialThreads = {
     {
-QT_MOC_LITERAL(0, 0, 15), // "SendDataThreads"
-QT_MOC_LITERAL(1, 16, 10), // "startTimer"
-QT_MOC_LITERAL(2, 27, 0), // ""
-QT_MOC_LITERAL(3, 28, 8), // "sendData"
-QT_MOC_LITERAL(4, 37, 13) // "removeTopLine"
+QT_MOC_LITERAL(0, 0, 13), // "SerialThreads"
+QT_MOC_LITERAL(1, 14, 10), // "startTimer"
+QT_MOC_LITERAL(2, 25, 0), // ""
+QT_MOC_LITERAL(3, 26, 8), // "sendData"
+QT_MOC_LITERAL(4, 35, 13), // "removeTopLine"
+QT_MOC_LITERAL(5, 49, 8) // "readData"
 
     },
-    "SendDataThreads\0startTimer\0\0sendData\0"
-    "removeTopLine"
+    "SerialThreads\0startTimer\0\0sendData\0"
+    "removeTopLine\0readData"
 };
 #undef QT_MOC_LITERAL
 
-static const uint qt_meta_data_SendDataThreads[] = {
+static const uint qt_meta_data_SerialThreads[] = {
 
  // content:
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-       3,   14, // methods
+       4,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -58,11 +59,13 @@ static const uint qt_meta_data_SendDataThreads[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   29,    2, 0x08 /* Private */,
-       3,    0,   30,    2, 0x08 /* Private */,
-       4,    0,   31,    2, 0x08 /* Private */,
+       1,    0,   34,    2, 0x08 /* Private */,
+       3,    0,   35,    2, 0x08 /* Private */,
+       4,    0,   36,    2, 0x08 /* Private */,
+       5,    0,   37,    2, 0x08 /* Private */,
 
  // slots: parameters
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -70,57 +73,58 @@ static const uint qt_meta_data_SendDataThreads[] = {
        0        // eod
 };
 
-void SendDataThreads::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void SerialThreads::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
-        auto *_t = static_cast<SendDataThreads *>(_o);
+        auto *_t = static_cast<SerialThreads *>(_o);
         (void)_t;
         switch (_id) {
         case 0: _t->startTimer(); break;
         case 1: _t->sendData(); break;
         case 2: _t->removeTopLine(); break;
+        case 3: _t->readData(); break;
         default: ;
         }
     }
     (void)_a;
 }
 
-QT_INIT_METAOBJECT const QMetaObject SendDataThreads::staticMetaObject = { {
+QT_INIT_METAOBJECT const QMetaObject SerialThreads::staticMetaObject = { {
     QMetaObject::SuperData::link<QObject::staticMetaObject>(),
-    qt_meta_stringdata_SendDataThreads.data,
-    qt_meta_data_SendDataThreads,
+    qt_meta_stringdata_SerialThreads.data,
+    qt_meta_data_SerialThreads,
     qt_static_metacall,
     nullptr,
     nullptr
 } };
 
 
-const QMetaObject *SendDataThreads::metaObject() const
+const QMetaObject *SerialThreads::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *SendDataThreads::qt_metacast(const char *_clname)
+void *SerialThreads::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_SendDataThreads.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_SerialThreads.stringdata0))
         return static_cast<void*>(this);
     return QObject::qt_metacast(_clname);
 }
 
-int SendDataThreads::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int SerialThreads::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QObject::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 3)
+        if (_id < 4)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 3;
+        _id -= 4;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 3)
+        if (_id < 4)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 3;
+        _id -= 4;
     }
     return _id;
 }

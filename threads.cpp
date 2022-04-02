@@ -4,18 +4,22 @@
 #include <iostream>
 #include <QSerialPort>
 
-SendDataThreads::SendDataThreads(QPlainTextEdit *sendConsole_param,
+// Send Data Threads
+SerialThreads::SerialThreads(QPlainTextEdit *sendConsole_param,
+                                 QPlainTextEdit *receiveConsole_param,
                                  QStatusBar *status_param,
                                  QObject *parent) :
     QObject(parent)
 {
     sendConsole = sendConsole_param;
+    receiveConsole = receiveConsole_param;
     status = status_param;
 
     serial = new QSerialPort;
 
     timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &SendDataThreads::sendData);
+    connect(timer, &QTimer::timeout, this, &SerialThreads::sendData);
+    connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
 
     thread = new QThread(parent);
     connect(thread, SIGNAL(started()), this, SLOT(startTimer()));
@@ -23,11 +27,17 @@ SendDataThreads::SendDataThreads(QPlainTextEdit *sendConsole_param,
     thread->start();
 }
 
-void SendDataThreads::startTimer(){
+void SerialThreads::startTimer(){
     timer->start(5000);
 }
 
-void SendDataThreads::openSerialPort(){
+void SerialThreads::readData(){
+    const QByteArray data = serial->readAll();
+    QTextCodec *codec = QTextCodec::codecForName("UTF-8");
+    receiveConsole->appendPlainText(codec->toUnicode(data));
+}
+
+void SerialThreads::openSerialPort(){
 
     serial->setPortName(conf->portName);
     serial->setBaudRate(conf->baudRate);
@@ -44,12 +54,12 @@ void SendDataThreads::openSerialPort(){
     }
 }
 
-void SendDataThreads::closeSerialPort(){
+void SerialThreads::closeSerialPort(){
     serial->close();
     status->showMessage(tr("Disconnected"));
 }
 
-void SendDataThreads::printStatus(){
+void SerialThreads::printStatus(){
     for(int i = 0; i < dataObj->dataStatus.length(); i++){
         std::cout << dataObj->dataStatus[i]->dataNames.toStdString() << " Added = "
                   << dataObj->dataStatus[i]->isAdded << ", Enabled = "
@@ -57,7 +67,7 @@ void SendDataThreads::printStatus(){
     }
 }
 
-void SendDataThreads::setPortConfigs(PortConfigs *conf_param){
+void SerialThreads::setPortConfigs(PortConfigs *conf_param){
     conf = conf_param;
     std::cout << conf->baudRate << std::endl;
     std::cout << conf->portName.toStdString() << std::endl;
@@ -69,7 +79,7 @@ void SendDataThreads::setPortConfigs(PortConfigs *conf_param){
     // set conf
 }
 
-int SendDataThreads::searchDataId(int index){
+int SerialThreads::searchDataId(int index){
     for(int i = 0; i < dataObj->dataStatus.length(); i++){
         if(dataObj->dataStatus[i]->id == index){
             return i;
@@ -78,13 +88,13 @@ int SendDataThreads::searchDataId(int index){
     return -1;
 }
 
-void SendDataThreads::setAddedData(QVector<RunningData*> &ptra, nmeaData *ptrb){
+void SerialThreads::setAddedData(QVector<RunningData*> &ptra, nmeaData *ptrb){
     dataFrontendPtr = ptra;
     dataObj = ptrb;
     //printStatus();
 }
 
-void SendDataThreads::removeTopLine(){
+void SerialThreads::removeTopLine(){
     QTextCursor cursor = sendConsole->textCursor();
     cursor.movePosition(QTextCursor::Start);
     cursor.select(QTextCursor::LineUnderCursor);
@@ -92,12 +102,12 @@ void SendDataThreads::removeTopLine(){
     cursor.deleteChar();
 }
 
-void SendDataThreads::sendSerial(QString &str){
+void SerialThreads::sendSerial(QString &str){
     QByteArray br = str.toUtf8();
     serial->write(br);
 }
 
-void SendDataThreads::sendData(){
+void SerialThreads::sendData(){
     QString dataStr;
     int dataNum = 0;
     if(dataFrontendPtr.length() == 0)
