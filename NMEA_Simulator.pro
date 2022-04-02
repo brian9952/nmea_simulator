@@ -21,6 +21,7 @@ SOURCES += \
     startupdialog.cpp \
 
 HEADERS += \
+    datastructs.h \
     dptdialog.h \
     nmeadata.h \
     mainwindow.h \

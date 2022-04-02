@@ -59,12 +59,19 @@ void startupdialog::createLayout(){
 
 }
 
+QString startupdialog::getConfig(){
+    return serialPortsList->currentText();
+}
+
 void startupdialog::createConnection(){
     // check if port is open
     serialCheckTimer = new QTimer(this);
     connect(serialCheckTimer, SIGNAL(timeout()),
             this, SLOT(updateComboBox()));
     serialCheckTimer->start(10000);
+
+    // cancel button
+    connect(cancelButton, SIGNAL(clicked()), this, SLOT(close()));
 }
 
 void startupdialog::updateComboBox(){

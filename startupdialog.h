@@ -15,6 +15,12 @@ public:
     startupdialog(QWidget *parent = nullptr);
     ~startupdialog();
 
+    // widgets
+    QPushButton *okButton;
+
+    // functions
+    QString getConfig();
+
 private slots:
     void updateComboBox();
 
@@ -28,7 +34,6 @@ private:
     QLabel *titleLabel;
     QLabel *warningLabel;
     QComboBox *serialPortsList;
-    QPushButton *okButton;
     QPushButton *cancelButton;
 
     QTimer *serialCheckTimer;

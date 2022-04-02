@@ -1,7 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "datastructs.h"
 #include <QMainWindow>
+#include "startupdialog.h"
 #include "serialportdialog.h"
 #include "nmeadata.h"
 #include "aamdialog.h"
@@ -36,6 +38,8 @@ public:
 
 private slots:
     void openPortConfigDialog();
+    void startupConfig();
+    void applyPortConfigs();
     void openNMEADialog(int i);
     void addData(int i);
     void changeDataState(int index);
@@ -43,6 +47,7 @@ private slots:
 
 private:
     QVector<RunningData*> dataFrontend;
+    PortConfigs *conf;
 
     struct SerialPortConfigs {
         QString portName;
@@ -114,6 +119,7 @@ private:
     //void sendData();
 
     // DIALOGS
+    startupdialog *startupDialog;
     SerialPortDialog *serialPortDialog;
     AAMDialog *aamDialog;
     BODDialog *bodDialog;

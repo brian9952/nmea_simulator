@@ -7,17 +7,9 @@
 
 SerialPortDialog::SerialPortDialog(QWidget *parent) : QDialog(parent)
 {
-
-    configs = new PortConfigs;
-
     // create dialog layout
     createLayout();
     createConnection();
-    
-    configs->baudRate = QSerialPort::Baud115200;
-    QSerialPort *port = new QSerialPort;
-    port->setBaudRate(configs->baudRate);
-
 }
 
 void SerialPortDialog::detectSerialPorts(){
@@ -57,7 +49,7 @@ void SerialPortDialog::createLayout(){
 
     // generate baud rate values
     for(int i = 1200; i <= 115200; i*=2){
-        baudRateCombobox->addItem(QString::number(i));
+        baudRateCombobox->addItem(QString::number(i), QVariant(i));
         if(i == 38400)
             i += 19200;
     }
@@ -71,7 +63,7 @@ void SerialPortDialog::createLayout(){
     dataBitsLabel = new QLabel(tr("Data Bits: "));
     dataBitsCombobox = new QComboBox();
     for(int i = 5; i < 9; i++){
-        dataBitsCombobox->addItem(QString::number(i));
+        dataBitsCombobox->addItem(QString::number(i), QVariant(i));
     }
     
     // create layout
@@ -126,6 +118,9 @@ void SerialPortDialog::createLayout(){
     rightLayout->addLayout(parityLayout);
     rightLayout->addLayout(stopBitsLayout);
     rightLayout->addLayout(flowControlLayout);
+
+    QSerialPort::BaudRate val = static_cast<QSerialPort::BaudRate>(1200);
+    std::cout << val << std::endl;
     
     QHBoxLayout *configsLayout = new QHBoxLayout;
     configsLayout->addLayout(leftLayout);
@@ -134,7 +129,7 @@ void SerialPortDialog::createLayout(){
     // create buttons
     applyButton = new QPushButton(tr("Apply"));
     cancelButton = new QPushButton(tr("Cancel"));
-    
+
     // create layout
     QHBoxLayout *buttonLayout = new QHBoxLayout;
     buttonLayout->addWidget(applyButton);
@@ -149,14 +144,7 @@ void SerialPortDialog::createLayout(){
 
 }
 
-void SerialPortDialog::updateConfig(){
-    // put configs update here ...
-}
-
 void SerialPortDialog::createConnection(){
-    // apply button connection
-    connect(applyButton, SIGNAL(clicked()), this, SLOT(updateConfig()));
-
     // cancel button connection
     connect(cancelButton, SIGNAL(clicked()), this, SLOT(close()));
 }

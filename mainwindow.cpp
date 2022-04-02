@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     // create central widget
     mainWindow = new QWidget;
+    conf = new PortConfigs;
 
     createAction();
     createMenuBar();
@@ -26,8 +27,14 @@ MainWindow::MainWindow(QWidget *parent)
     createConnection();
     //createTimers();
 
+    // open startup dialog
+    startupDialog->show();
+    startupDialog->raise();
+    startupDialog->activateWindow();
+
     // create threads
-    sendThread = new SendDataThreads(sendSerialConsole, this);
+    sendThread = new SendDataThreads(sendSerialConsole, statusBar, this);
+    sendThread->setPortConfigs(conf);
 }
 
 void MainWindow::createMenuBar(){
@@ -176,6 +183,14 @@ void MainWindow::createConnection(){
     // data add
     addDataMapper = new QSignalMapper;
 
+    // startup dialog apply
+    connect(startupDialog->okButton, SIGNAL(clicked()),
+            this, SLOT(startupConfig()));
+
+    // config apply signal
+    connect(serialPortDialog->applyButton, SIGNAL(clicked()),
+            this, SLOT(applyPortConfigs()));
+
     // aamdialog
     connect(aamDialog->addButton, SIGNAL(clicked()),
             addDataMapper, SLOT(map()));
@@ -189,23 +204,30 @@ void MainWindow::createConnection(){
     connect(addDataMapper, SIGNAL(mapped(int)),
             this, SLOT(addData(int)));
 
+
     // checkbox signal mapper
     checkboxMapper = new QSignalMapper;
-    connect(checkboxMapper, SIGNAL(mapped(int)), this, SLOT(changeDataState(int)));
+    connect(checkboxMapper, SIGNAL(mapped(int)),
+            this, SLOT(changeDataState(int)));
 
     // duration signal mapper
     durationMapper = new QSignalMapper;
-    connect(durationMapper, SIGNAL(mapped(int)), this, SLOT(changeDataState(int)));
+    connect(durationMapper, SIGNAL(mapped(int)),
+            this, SLOT(changeDataState(int)));
 
     // cancel button signal mapper
     cancelMapper = new QSignalMapper;
-    connect(cancelMapper, SIGNAL(mapped(int)), this, SLOT(deleteRunningData(int)));
+    connect(cancelMapper, SIGNAL(mapped(int)),
+            this, SLOT(deleteRunningData(int)));
+
 
 }
 
 void MainWindow::createDialog(){
+    startupDialog = new startupdialog();
+    serialPortDialog = new SerialPortDialog();
     aamDialog = new AAMDialog();
-    bodDialog = new BODDialog;
+    bodDialog = new BODDialog();;
 }
 
 // Generic Functions
@@ -232,11 +254,50 @@ int MainWindow::searchDataId(int index){
 
 // SLOTS
 void MainWindow::openPortConfigDialog(){
-    serialPortDialog = new SerialPortDialog();
-    serialPortDialog->setAttribute(Qt::WA_DeleteOnClose);
     serialPortDialog->show();
     serialPortDialog->raise();
     serialPortDialog->activateWindow();
+}
+
+void MainWindow::startupConfig(){
+    conf->portName = startupDialog->getConfig();
+    sendThread->setPortConfigs(conf);
+    startupDialog->close();
+}
+
+void MainWindow::applyPortConfigs(){
+    int val;
+
+    // port name
+    conf->portName = serialPortDialog->portNameCombobox->currentText();
+
+    // baud rate
+    val = serialPortDialog->baudRateCombobox->currentData().toInt();
+    QSerialPort::BaudRate baudRate = static_cast<QSerialPort::BaudRate>(val);
+    conf->baudRate = baudRate;
+
+    // data bits
+    val = serialPortDialog->dataBitsCombobox->currentData().toInt();
+    QSerialPort::DataBits dataBits = static_cast<QSerialPort::DataBits>(val);
+    conf->dataBits = dataBits;
+
+    // parity bits
+    val = serialPortDialog->parityCombobox->currentData().toInt();
+    QSerialPort::Parity parity = static_cast<QSerialPort::Parity>(val);
+    conf->parity = parity;
+
+    // stop bits
+    val = serialPortDialog->stopBitsCombobox->currentData().toInt();
+    QSerialPort::StopBits stopBits = static_cast<QSerialPort::StopBits>(val);
+    conf->stopBits = stopBits;
+
+    // flow control
+    val = serialPortDialog->flowControlCombobox->currentData().toInt();
+    QSerialPort::FlowControl flowControl = static_cast<QSerialPort::FlowControl>(val);
+    conf->flowControl = flowControl;
+
+    sendThread->setPortConfigs(conf);
+    serialPortDialog->close();
 }
 
 void MainWindow::openNMEADialog(int i){
