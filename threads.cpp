@@ -105,6 +105,7 @@ void SerialThreads::removeTopLine(){
 void SerialThreads::sendSerial(QString &str){
     QByteArray br = str.toUtf8();
     serial->write(br);
+    serial->flush();
 }
 
 void SerialThreads::sendData(){
