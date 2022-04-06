@@ -60,7 +60,6 @@ QString nmeaData::createAAMString(){
 }
 
 QString nmeaData::createBODString(){
-    // todo
     QString str;
     str.append("$GPBOD, ");
 
@@ -85,6 +84,25 @@ QString nmeaData::createBODString(){
 
     str.append(bdm_val);
     str.append(",M,POINTB,POINTA,*52\n");
+
+    return str;
+}
+
+QString nmeaData::createDPTString(){
+    QString str;
+    str.append("$INDPT,");
+
+    // generate waterdepth val
+    float wd_rand = randomFloat(dpt->waterDepth_firstRange,
+                                dpt->waterDepth_lastRange);
+    str.append(QString::number(roundFloat2(wd_rand)));
+    str.append(",");
+
+    // generate maxRange val
+    float maxRange_rand = randomFloat(dpt->maxRange_firstRange,
+                                      dpt->maxRange_lastRange);
+    str.append(QString::number(roundFloat2(maxRange_rand)));
+    str.append("*46\n");
 
     return str;
 }

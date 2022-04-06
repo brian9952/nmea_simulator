@@ -21,10 +21,17 @@ public:
 
     void applyConfigs(nmeaData *data);
 
+private slots:
+    void wdSyncLowValue(int);
+    void wdSyncHighValue(int);
+    void mrSyncLowValue(int);
+    void mrSyncHighValue(int);
+
 private:
     // functions
     void createLayout();
     void createConnection();
+    float convMrValue(int val);
 
     // classes
     QLabel *wdLabel;

@@ -29,6 +29,9 @@ public:
     QComboBox *stopBitsCombobox;
     QComboBox *flowControlCombobox;
 
+    // functions
+    void refreshPortList();
+
 private:
 
     void createLayout();

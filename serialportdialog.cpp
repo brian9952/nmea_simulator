@@ -13,10 +13,11 @@ SerialPortDialog::SerialPortDialog(QWidget *parent) : QDialog(parent)
 }
 
 void SerialPortDialog::detectSerialPorts(){
+    serialPorts.clear();
 
     QSerialPortInfo *serialInfo = new QSerialPortInfo;
     QList<QSerialPortInfo> sports;
-    
+
     sports = serialInfo->availablePorts();
     
     for(int i = 0; i < sports.length(); i++){
@@ -29,7 +30,7 @@ void SerialPortDialog::detectSerialPorts(){
 
 void SerialPortDialog::createLayout(){
 
-    detectSerialPorts();
+    //detectSerialPorts();
     
     // create port name label and combobox
     portNameLabel = new QLabel(tr("Port Name: "));
@@ -142,6 +143,14 @@ void SerialPortDialog::createLayout(){
     
     setLayout(mainLayout);
 
+}
+
+void SerialPortDialog::refreshPortList(){
+    detectSerialPorts();
+    portNameCombobox->clear();
+    for(int i = 0; i < serialPorts.length(); i++){
+        portNameCombobox->addItem(serialPorts[i]);
+    }
 }
 
 void SerialPortDialog::createConnection(){

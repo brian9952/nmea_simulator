@@ -201,6 +201,11 @@ void MainWindow::createConnection(){
             addDataMapper, SLOT(map()));
     addDataMapper->setMapping(bodDialog->addButton, 1);
 
+    // dptDialog
+    connect(dptDialog->addButton, SIGNAL(clicked()),
+            addDataMapper, SLOT(map()));
+    addDataMapper->setMapping(dptDialog->addButton, 2);
+
     connect(addDataMapper, SIGNAL(mapped(int)),
             this, SLOT(addData(int)));
 
@@ -227,7 +232,8 @@ void MainWindow::createDialog(){
     startupDialog = new startupdialog();
     serialPortDialog = new SerialPortDialog();
     aamDialog = new AAMDialog();
-    bodDialog = new BODDialog();;
+    bodDialog = new BODDialog();
+    dptDialog = new DPTDialog();
 }
 
 // Generic Functions
@@ -254,6 +260,7 @@ int MainWindow::searchDataId(int index){
 
 // SLOTS
 void MainWindow::openPortConfigDialog(){
+    serialPortDialog->refreshPortList();
     serialPortDialog->show();
     serialPortDialog->raise();
     serialPortDialog->activateWindow();
@@ -311,6 +318,11 @@ void MainWindow::openNMEADialog(int i){
             bodDialog->show();
             bodDialog->raise();
             bodDialog->activateWindow();
+            break;
+        case 2:
+            dptDialog->show();
+            dptDialog->raise();
+            dptDialog->activateWindow();
             break;
         default:
             return;
@@ -406,6 +418,11 @@ void MainWindow::addData(int index){
             bodDialog->applyConfigs(data);
             data->dataStatus[index]->duration = data->bod->duration;
             bodDialog->close();
+            break;
+        case 2:
+            dptDialog->applyConfigs(data);
+            data->dataStatus[index]->duration = data->dpt->duration;
+            dptDialog->close();
             break;
         default:
             break;

@@ -8,6 +8,7 @@
 #include "nmeadata.h"
 #include "aamdialog.h"
 #include "boddialog.h"
+#include "dptdialog.h"
 #include "threads.h"
 
 QT_BEGIN_NAMESPACE
@@ -123,6 +124,7 @@ private:
     SerialPortDialog *serialPortDialog;
     AAMDialog *aamDialog;
     BODDialog *bodDialog;
+    DPTDialog *dptDialog;
 
     // generic functions
     QString convertAbbvr(const QString &str);

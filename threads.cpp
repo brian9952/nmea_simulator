@@ -28,7 +28,7 @@ SerialThreads::SerialThreads(QPlainTextEdit *sendConsole_param,
 }
 
 void SerialThreads::startTimer(){
-    timer->start(5000);
+    timer->start(2500);
 }
 
 void SerialThreads::readData(){
@@ -128,6 +128,9 @@ void SerialThreads::sendData(){
                     break;
                 case 1:
                     dataStr.append(dataObj->createBODString());
+                    break;
+                case 2:
+                    dataStr.append(dataObj->createDPTString());
                     break;
                 default:
                     break;
