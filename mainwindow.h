@@ -9,6 +9,7 @@
 #include "aamdialog.h"
 #include "boddialog.h"
 #include "dptdialog.h"
+#include "rotdialog.h"
 #include "threads.h"
 
 QT_BEGIN_NAMESPACE
@@ -125,6 +126,7 @@ private:
     AAMDialog *aamDialog;
     BODDialog *bodDialog;
     DPTDialog *dptDialog;
+    ROTDialog *rotDialog;
 
     // generic functions
     QString convertAbbvr(const QString &str);

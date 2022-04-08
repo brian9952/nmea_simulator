@@ -206,6 +206,11 @@ void MainWindow::createConnection(){
             addDataMapper, SLOT(map()));
     addDataMapper->setMapping(dptDialog->addButton, 2);
 
+    // rotDialog
+    connect(rotDialog->addButton, SIGNAL(clicked()),
+            addDataMapper, SLOT(map()));
+    addDataMapper->setMapping(rotDialog->addButton, 3);
+
     connect(addDataMapper, SIGNAL(mapped(int)),
             this, SLOT(addData(int)));
 
@@ -234,6 +239,7 @@ void MainWindow::createDialog(){
     aamDialog = new AAMDialog();
     bodDialog = new BODDialog();
     dptDialog = new DPTDialog();
+    rotDialog = new ROTDialog();
 }
 
 // Generic Functions
@@ -423,6 +429,11 @@ void MainWindow::addData(int index){
             dptDialog->applyConfigs(data);
             data->dataStatus[index]->duration = data->dpt->duration;
             dptDialog->close();
+            break;
+        case 3:
+            rotDialog->applyConfigs(data);
+            data->dataStatus[index]->duration = data->rot->duration;
+            rotDialog->close();
             break;
         default:
             break;

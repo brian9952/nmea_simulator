@@ -57,6 +57,7 @@ public:
     QString createAAMString();
     QString createBODString();
     QString createDPTString();
+    QString createROTString();
 
 private:
     float randomFloat(float a, float b);

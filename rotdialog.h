@@ -7,6 +7,7 @@
 
 class QPushButton;
 class QLabel;
+class QComboBox;
 
 class ROTDialog : public QDialog
 {
@@ -17,17 +18,27 @@ public:
     ROTDialog(QWidget *parent = nullptr);
     void applyConfigs(nmeaData *data);
 
+    QPushButton *addButton;
+
 private slots:
-    // todo SLOT
+    void rotSyncLowValue(int);
+    void rotSyncHighValue(int);
 
 private:
     void createLayout();
+    void createConnection();
+    float convRotValue(int val);
 
     QLabel *rotLabel;
     QLabel *durationLabel;
+    QLabel *rotLowVal;
+    QLabel *rotHighVal;
 
     RangeSlider *rotSlider;
     QComboBox *durationCombobox;
 
+    QPushButton *cancelButton;
 
-}
+};
+
+#endif // ROTDIALOG_H

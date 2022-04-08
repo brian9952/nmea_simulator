@@ -106,3 +106,8 @@ QString nmeaData::createDPTString(){
 
     return str;
 }
+
+QString nmeaData::createROTString(){
+    QString str;
+    str.append();
+}

@@ -13,6 +13,7 @@ SOURCES += \
     main.cpp \
     nmeadata.cpp \
     mainwindow.cpp \
+    rotdialog.cpp \
     serialportdialog.cpp \
     aamdialog.cpp \
     boddialog.cpp \
@@ -25,6 +26,7 @@ HEADERS += \
     dptdialog.h \
     nmeadata.h \
     mainwindow.h \
+    rotdialog.h \
     serialportdialog.h \
     aamdialog.h \
     boddialog.h \

@@ -132,6 +132,9 @@ void SerialThreads::sendData(){
                 case 2:
                     dataStr.append(dataObj->createDPTString());
                     break;
+                case 3:
+                    dataStr.append(dataObj->createROTString());
+                    break;
                 default:
                     break;
             }
