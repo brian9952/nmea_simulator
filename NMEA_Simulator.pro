@@ -10,10 +10,13 @@ CONFIG += c++11 debug
 
 SOURCES += \
     dptdialog.cpp \
+    hdtdialog.cpp \
     main.cpp \
+    mwvdialog.cpp \
     nmeadata.cpp \
     mainwindow.cpp \
     rotdialog.cpp \
+    rsadialog.cpp \
     serialportdialog.cpp \
     aamdialog.cpp \
     boddialog.cpp \
@@ -24,9 +27,12 @@ SOURCES += \
 HEADERS += \
     datastructs.h \
     dptdialog.h \
+    hdtdialog.h \
+    mwvdialog.h \
     nmeadata.h \
     mainwindow.h \
     rotdialog.h \
+    rsadialog.h \
     serialportdialog.h \
     aamdialog.h \
     boddialog.h \

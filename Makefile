@@ -53,18 +53,24 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = dptdialog.cpp \
+		hdtdialog.cpp \
 		main.cpp \
+		mwvdialog.cpp \
 		nmeadata.cpp \
 		mainwindow.cpp \
 		rotdialog.cpp \
+		rsadialog.cpp \
 		serialportdialog.cpp \
 		aamdialog.cpp \
 		boddialog.cpp \
 		libs/RangeSlider.cpp \
 		threads.cpp \
 		startupdialog.cpp moc_dptdialog.cpp \
+		moc_hdtdialog.cpp \
+		moc_mwvdialog.cpp \
 		moc_mainwindow.cpp \
 		moc_rotdialog.cpp \
+		moc_rsadialog.cpp \
 		moc_serialportdialog.cpp \
 		moc_aamdialog.cpp \
 		moc_boddialog.cpp \
@@ -72,10 +78,13 @@ SOURCES       = dptdialog.cpp \
 		moc_threads.cpp \
 		moc_startupdialog.cpp
 OBJECTS       = dptdialog.o \
+		hdtdialog.o \
 		main.o \
+		mwvdialog.o \
 		nmeadata.o \
 		mainwindow.o \
 		rotdialog.o \
+		rsadialog.o \
 		serialportdialog.o \
 		aamdialog.o \
 		boddialog.o \
@@ -83,8 +92,11 @@ OBJECTS       = dptdialog.o \
 		threads.o \
 		startupdialog.o \
 		moc_dptdialog.o \
+		moc_hdtdialog.o \
+		moc_mwvdialog.o \
 		moc_mainwindow.o \
 		moc_rotdialog.o \
+		moc_rsadialog.o \
 		moc_serialportdialog.o \
 		moc_aamdialog.o \
 		moc_boddialog.o \
@@ -390,19 +402,25 @@ DIST          = images/cancel_icon.png \
 		/usr/lib/qt/mkspecs/features/lex.prf \
 		NMEA_Simulator.pro datastructs.h \
 		dptdialog.h \
+		hdtdialog.h \
+		mwvdialog.h \
 		nmeadata.h \
 		mainwindow.h \
 		rotdialog.h \
+		rsadialog.h \
 		serialportdialog.h \
 		aamdialog.h \
 		boddialog.h \
 		libs/RangeSlider.h \
 		threads.h \
 		startupdialog.h dptdialog.cpp \
+		hdtdialog.cpp \
 		main.cpp \
+		mwvdialog.cpp \
 		nmeadata.cpp \
 		mainwindow.cpp \
 		rotdialog.cpp \
+		rsadialog.cpp \
 		serialportdialog.cpp \
 		aamdialog.cpp \
 		boddialog.cpp \
@@ -1030,8 +1048,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents datastructs.h dptdialog.h nmeadata.h mainwindow.h rotdialog.h serialportdialog.h aamdialog.h boddialog.h libs/RangeSlider.h threads.h startupdialog.h $(DISTDIR)/
-	$(COPY_FILE) --parents dptdialog.cpp main.cpp nmeadata.cpp mainwindow.cpp rotdialog.cpp serialportdialog.cpp aamdialog.cpp boddialog.cpp libs/RangeSlider.cpp threads.cpp startupdialog.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents datastructs.h dptdialog.h hdtdialog.h mwvdialog.h nmeadata.h mainwindow.h rotdialog.h rsadialog.h serialportdialog.h aamdialog.h boddialog.h libs/RangeSlider.h threads.h startupdialog.h $(DISTDIR)/
+	$(COPY_FILE) --parents dptdialog.cpp hdtdialog.cpp main.cpp mwvdialog.cpp nmeadata.cpp mainwindow.cpp rotdialog.cpp rsadialog.cpp serialportdialog.cpp aamdialog.cpp boddialog.cpp libs/RangeSlider.cpp threads.cpp startupdialog.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents mainwindow.ui $(DISTDIR)/
 
 
@@ -1064,15 +1082,29 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/qt/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++11 -Wall -Wextra -dM -E -o moc_predefs.h /usr/lib/qt/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_dptdialog.cpp moc_mainwindow.cpp moc_rotdialog.cpp moc_serialportdialog.cpp moc_aamdialog.cpp moc_boddialog.cpp moc_RangeSlider.cpp moc_threads.cpp moc_startupdialog.cpp
+compiler_moc_header_make_all: moc_dptdialog.cpp moc_hdtdialog.cpp moc_mwvdialog.cpp moc_mainwindow.cpp moc_rotdialog.cpp moc_rsadialog.cpp moc_serialportdialog.cpp moc_aamdialog.cpp moc_boddialog.cpp moc_RangeSlider.cpp moc_threads.cpp moc_startupdialog.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_dptdialog.cpp moc_mainwindow.cpp moc_rotdialog.cpp moc_serialportdialog.cpp moc_aamdialog.cpp moc_boddialog.cpp moc_RangeSlider.cpp moc_threads.cpp moc_startupdialog.cpp
+	-$(DEL_FILE) moc_dptdialog.cpp moc_hdtdialog.cpp moc_mwvdialog.cpp moc_mainwindow.cpp moc_rotdialog.cpp moc_rsadialog.cpp moc_serialportdialog.cpp moc_aamdialog.cpp moc_boddialog.cpp moc_RangeSlider.cpp moc_threads.cpp moc_startupdialog.cpp
 moc_dptdialog.cpp: dptdialog.h \
 		libs/RangeSlider.h \
 		nmeadata.h \
 		moc_predefs.h \
 		/usr/bin/moc
 	/usr/bin/moc $(DEFINES) --include /home/brian/Projects/cpp/nmea_simulator/moc_predefs.h -I/usr/lib/qt/mkspecs/linux-g++ -I/home/brian/Projects/cpp/nmea_simulator -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtSerialPort -I/usr/include/qt/QtCore -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include dptdialog.h -o moc_dptdialog.cpp
+
+moc_hdtdialog.cpp: hdtdialog.h \
+		libs/RangeSlider.h \
+		nmeadata.h \
+		moc_predefs.h \
+		/usr/bin/moc
+	/usr/bin/moc $(DEFINES) --include /home/brian/Projects/cpp/nmea_simulator/moc_predefs.h -I/usr/lib/qt/mkspecs/linux-g++ -I/home/brian/Projects/cpp/nmea_simulator -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtSerialPort -I/usr/include/qt/QtCore -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include hdtdialog.h -o moc_hdtdialog.cpp
+
+moc_mwvdialog.cpp: mwvdialog.h \
+		libs/RangeSlider.h \
+		nmeadata.h \
+		moc_predefs.h \
+		/usr/bin/moc
+	/usr/bin/moc $(DEFINES) --include /home/brian/Projects/cpp/nmea_simulator/moc_predefs.h -I/usr/lib/qt/mkspecs/linux-g++ -I/home/brian/Projects/cpp/nmea_simulator -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtSerialPort -I/usr/include/qt/QtCore -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include mwvdialog.h -o moc_mwvdialog.cpp
 
 moc_mainwindow.cpp: mainwindow.h \
 		datastructs.h \
@@ -1083,6 +1115,10 @@ moc_mainwindow.cpp: mainwindow.h \
 		libs/RangeSlider.h \
 		boddialog.h \
 		dptdialog.h \
+		rotdialog.h \
+		mwvdialog.h \
+		rsadialog.h \
+		hdtdialog.h \
 		threads.h \
 		moc_predefs.h \
 		/usr/bin/moc
@@ -1094,6 +1130,13 @@ moc_rotdialog.cpp: rotdialog.h \
 		moc_predefs.h \
 		/usr/bin/moc
 	/usr/bin/moc $(DEFINES) --include /home/brian/Projects/cpp/nmea_simulator/moc_predefs.h -I/usr/lib/qt/mkspecs/linux-g++ -I/home/brian/Projects/cpp/nmea_simulator -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtSerialPort -I/usr/include/qt/QtCore -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include rotdialog.h -o moc_rotdialog.cpp
+
+moc_rsadialog.cpp: rsadialog.h \
+		libs/RangeSlider.h \
+		nmeadata.h \
+		moc_predefs.h \
+		/usr/bin/moc
+	/usr/bin/moc $(DEFINES) --include /home/brian/Projects/cpp/nmea_simulator/moc_predefs.h -I/usr/lib/qt/mkspecs/linux-g++ -I/home/brian/Projects/cpp/nmea_simulator -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtSerialPort -I/usr/include/qt/QtCore -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include rsadialog.h -o moc_rsadialog.cpp
 
 moc_serialportdialog.cpp: serialportdialog.h \
 		datastructs.h \
@@ -1158,6 +1201,11 @@ dptdialog.o: dptdialog.cpp dptdialog.h \
 		nmeadata.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dptdialog.o dptdialog.cpp
 
+hdtdialog.o: hdtdialog.cpp hdtdialog.h \
+		libs/RangeSlider.h \
+		nmeadata.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o hdtdialog.o hdtdialog.cpp
+
 main.o: main.cpp mainwindow.h \
 		datastructs.h \
 		startupdialog.h \
@@ -1167,8 +1215,17 @@ main.o: main.cpp mainwindow.h \
 		libs/RangeSlider.h \
 		boddialog.h \
 		dptdialog.h \
+		rotdialog.h \
+		mwvdialog.h \
+		rsadialog.h \
+		hdtdialog.h \
 		threads.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
+
+mwvdialog.o: mwvdialog.cpp mwvdialog.h \
+		libs/RangeSlider.h \
+		nmeadata.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mwvdialog.o mwvdialog.cpp
 
 nmeadata.o: nmeadata.cpp nmeadata.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o nmeadata.o nmeadata.cpp
@@ -1182,6 +1239,10 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		libs/RangeSlider.h \
 		boddialog.h \
 		dptdialog.h \
+		rotdialog.h \
+		mwvdialog.h \
+		rsadialog.h \
+		hdtdialog.h \
 		threads.h \
 		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o mainwindow.cpp
@@ -1190,6 +1251,11 @@ rotdialog.o: rotdialog.cpp rotdialog.h \
 		libs/RangeSlider.h \
 		nmeadata.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o rotdialog.o rotdialog.cpp
+
+rsadialog.o: rsadialog.cpp rsadialog.h \
+		libs/RangeSlider.h \
+		nmeadata.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o rsadialog.o rsadialog.cpp
 
 serialportdialog.o: serialportdialog.cpp serialportdialog.h \
 		datastructs.h
@@ -1219,11 +1285,20 @@ startupdialog.o: startupdialog.cpp startupdialog.h
 moc_dptdialog.o: moc_dptdialog.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_dptdialog.o moc_dptdialog.cpp
 
+moc_hdtdialog.o: moc_hdtdialog.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_hdtdialog.o moc_hdtdialog.cpp
+
+moc_mwvdialog.o: moc_mwvdialog.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mwvdialog.o moc_mwvdialog.cpp
+
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
 
 moc_rotdialog.o: moc_rotdialog.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_rotdialog.o moc_rotdialog.cpp
+
+moc_rsadialog.o: moc_rsadialog.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_rsadialog.o moc_rsadialog.cpp
 
 moc_serialportdialog.o: moc_serialportdialog.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_serialportdialog.o moc_serialportdialog.cpp

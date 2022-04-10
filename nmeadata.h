@@ -41,6 +41,31 @@ public:
         float rateOfTurn_lastRange; // 0 - 360
     }; ROT *rot;
 
+    struct MWV { // wind speed and angle
+        int id = 4;
+        int duration;
+        float windAngle_firstRange; // 0 - 359
+        float windAngle_lastRange; // 0 - 359
+        float windSpeed_firstRange; // 0 - 300
+        float windSpeed_lastRange; // 0 - 300
+    }; MWV *mwv;
+
+    struct RSA { // rudder sensor angle
+        int id = 5;
+        int duration;
+        float starboardRudder_firstRange;
+        float starboardRudder_lastRange;
+        float portRudder_firstRange;
+        float portRudder_lastRange;
+    }; RSA *rsa;
+
+    struct HDT { // heading true
+        int id = 6;
+        int duration;
+        float heading_firstRange; // 0 - 359
+        float heading_lastRange; // 0 - 359
+    }; HDT *hdt;
+
     struct dataStruct {
         int id;
         int sec;
@@ -51,13 +76,17 @@ public:
     };
 
     QVector<dataStruct*> dataStatus;
-    const static int dataNumbers = 4;
+    const static int dataNumbers = 7;
 
     // get string data
     QString createAAMString();
     QString createBODString();
     QString createDPTString();
     QString createROTString();
+    QString createMWVString();
+    QString createRSAString();
+    QString createHDTString();
+
 
 private:
     float randomFloat(float a, float b);

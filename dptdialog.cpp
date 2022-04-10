@@ -70,6 +70,7 @@ void DPTDialog::createLayout(){
     // buttons
     addButton = new QPushButton(tr("Add"));
     cancelButton = new QPushButton(tr("Cancel"));
+
     QHBoxLayout *buttonsLayout = new QHBoxLayout;
     buttonsLayout->addWidget(addButton);
     buttonsLayout->addWidget(cancelButton);

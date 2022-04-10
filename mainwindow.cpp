@@ -211,6 +211,21 @@ void MainWindow::createConnection(){
             addDataMapper, SLOT(map()));
     addDataMapper->setMapping(rotDialog->addButton, 3);
 
+    // mwvDialog
+    connect(mwvDialog->addButton, SIGNAL(clicked()),
+            addDataMapper, SLOT(map()));
+    addDataMapper->setMapping(mwvDialog->addButton, 4);
+
+    // rsaDialog
+    connect(rsaDialog->addButton, SIGNAL(clicked()),
+            addDataMapper, SLOT(map()));
+    addDataMapper->setMapping(rsaDialog->addButton, 5);
+
+    // hdtDialog
+    connect(hdtDialog->addButton, SIGNAL(clicked()),
+            addDataMapper, SLOT(map()));
+    addDataMapper->setMapping(hdtDialog->addButton, 6);
+
     connect(addDataMapper, SIGNAL(mapped(int)),
             this, SLOT(addData(int)));
 
@@ -240,6 +255,9 @@ void MainWindow::createDialog(){
     bodDialog = new BODDialog();
     dptDialog = new DPTDialog();
     rotDialog = new ROTDialog();
+    mwvDialog = new MWVDialog();
+    rsaDialog = new RSADialog();
+    hdtDialog = new HDTDialog();
 }
 
 // Generic Functions
@@ -330,13 +348,33 @@ void MainWindow::openNMEADialog(int i){
             dptDialog->raise();
             dptDialog->activateWindow();
             break;
+        case 3:
+            rotDialog->show();
+            rotDialog->raise();
+            rotDialog->activateWindow();
+            break;
+        case 4:
+            mwvDialog->show();
+            mwvDialog->raise();
+            mwvDialog->activateWindow();
+            break;
+        case 5:
+            rsaDialog->show();
+            rsaDialog->raise();
+            rsaDialog->activateWindow();
+            break;
+        case 6:
+            hdtDialog->show();
+            hdtDialog->raise();
+            hdtDialog->activateWindow();
+            break;
         default:
             return;
     }
 }
 
 void MainWindow::changeDataState(int index){
-    std::cout << data->dataStatus[index]->dataNames.toStdString() << "is changed!" << std::endl;
+    std::cout << data->dataStatus[index]->dataNames.toStdString() << " is changed!" << std::endl;
     if(data->dataStatus[index]->isEnabled == false){
         data->dataStatus[index]->isEnabled = true;
     }else{
@@ -434,6 +472,21 @@ void MainWindow::addData(int index){
             rotDialog->applyConfigs(data);
             data->dataStatus[index]->duration = data->rot->duration;
             rotDialog->close();
+            break;
+        case 4:
+            mwvDialog->applyConfigs(data);
+            data->dataStatus[index]->duration = data->mwv->duration;
+            mwvDialog->close();
+            break;
+        case 5:
+            rsaDialog->applyConfigs(data);
+            data->dataStatus[index]->duration = data->rsa->duration;
+            rsaDialog->close();
+            break;
+        case 6:
+            hdtDialog->applyConfigs(data);
+            data->dataStatus[index]->duration = data->hdt->duration;
+            hdtDialog->close();
             break;
         default:
             break;

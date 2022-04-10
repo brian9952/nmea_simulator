@@ -30,6 +30,10 @@ void ROTDialog::createLayout(){
     durationCombobox->addItem("60 Minutes", QVariant(3600));
     durationCombobox->addItem("Infinite", QVariant(-1));
 
+    // buttons
+    addButton = new QPushButton(tr("Add"));
+    cancelButton = new QPushButton(tr("Cancel"));
+
     // rot layout
     QHBoxLayout *rotValues = new QHBoxLayout;
     rotValues->addWidget(rotLowVal);
@@ -46,10 +50,15 @@ void ROTDialog::createLayout(){
     durationLayout->addWidget(durationLabel);
     durationLayout->addWidget(durationCombobox);
 
+    QHBoxLayout *buttonLayout = new QHBoxLayout;
+    buttonLayout->addWidget(addButton);
+    buttonLayout->addWidget(cancelButton);
+
     // main layout
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addLayout(rotLayout);
     mainLayout->addLayout(durationLayout);
+    mainLayout->addLayout(buttonLayout);
     setLayout(mainLayout);
 }
 

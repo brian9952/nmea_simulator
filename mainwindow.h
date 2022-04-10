@@ -10,6 +10,9 @@
 #include "boddialog.h"
 #include "dptdialog.h"
 #include "rotdialog.h"
+#include "mwvdialog.h"
+#include "rsadialog.h"
+#include "hdtdialog.h"
 #include "threads.h"
 
 QT_BEGIN_NAMESPACE
@@ -114,11 +117,6 @@ private:
     void createAction();
     void createConnection();
     void createDialog();
-    //void createTimers();
-
-    // Data Execution Functions
-    //QTimer *sendTimer;
-    //void sendData();
 
     // DIALOGS
     startupdialog *startupDialog;
@@ -127,6 +125,9 @@ private:
     BODDialog *bodDialog;
     DPTDialog *dptDialog;
     ROTDialog *rotDialog;
+    MWVDialog *mwvDialog;
+    RSADialog *rsaDialog;
+    HDTDialog *hdtDialog;
 
     // generic functions
     QString convertAbbvr(const QString &str);

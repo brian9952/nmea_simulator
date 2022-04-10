@@ -135,6 +135,15 @@ void SerialThreads::sendData(){
                 case 3:
                     dataStr.append(dataObj->createROTString());
                     break;
+                case 4:
+                    dataStr.append(dataObj->createMWVString());
+                    break;
+                case 5:
+                    dataStr.append(dataObj->createRSAString());
+                    break;
+                case 6:
+                    dataStr.append(dataObj->createHDTString());
+                    break;
                 default:
                     break;
             }

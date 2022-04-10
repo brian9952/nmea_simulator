@@ -8,13 +8,19 @@ nmeaData::nmeaData()
     bod = new BOD;
     dpt = new DPT;
     rot = new ROT;
+    mwv = new MWV;
+    rsa = new RSA;
+    hdt = new HDT;
 
     // data add
     QString names[dataNumbers] = {
         "Waypoint Arrival Alarm",
         "Bearing Waypoint to Waypoint",
         "Depth of Water",
-        "Rate of Turn"
+        "Rate of Turn",
+        "Wind Speed and Angle",
+        "Rudder Sensor Angle",
+        "Heading - True"
     };
 
     // data status init
@@ -109,5 +115,68 @@ QString nmeaData::createDPTString(){
 
 QString nmeaData::createROTString(){
     QString str;
-    str.append();
+    str.append("$HEROT,");
+
+    // generate rate of turn val
+    float rot_rand = randomFloat(rot->rateOfTurn_firstRange,
+                                 rot->rateOfTurn_lastRange);
+    str.append(QString::number(roundFloat2(rot_rand)));
+    str.append(",A*2B\n");
+
+    return str;
+}
+
+QString nmeaData::createMWVString(){
+    QString str;
+    str.append("$GEMWV,");
+
+    // generate wind angle val
+    float wa_rand = randomFloat(mwv->windAngle_firstRange,
+                                mwv->windAngle_lastRange);
+
+    str.append(QString::number(roundFloat2(wa_rand)));
+    str.append(",R,");
+
+    float ws_rand = randomFloat(mwv->windSpeed_firstRange,
+                                mwv->windSpeed_lastRange);
+
+    str.append(QString::number(roundFloat2(ws_rand)));
+    str.append(",K,A*5E\n");
+
+    return str;
+}
+
+QString nmeaData::createRSAString(){
+    QString str;
+    str.append("$WARSA,");
+
+    // generate sr val
+    float sr_rand = randomFloat(rsa->starboardRudder_firstRange,
+                                rsa->starboardRudder_lastRange);
+
+    str.append(QString::number(roundFloat2(sr_rand)));
+    str.append(",A,");
+
+    // generate pr val
+    float pr_rand = randomFloat(rsa->portRudder_firstRange,
+                                rsa->portRudder_lastRange);
+
+    str.append(QString::number(roundFloat2(pr_rand)));
+    str.append(",A,*2B\n");
+
+    return str;
+}
+
+QString nmeaData::createHDTString(){
+    QString str;
+    str.append("$HEHDT,");
+
+    // generate hd val
+    float hd_rand = randomFloat(hdt->heading_firstRange,
+                                hdt->heading_lastRange);
+
+    str.append(QString::number(roundFloat2(hd_rand)));
+    str.append(",T*03\n");
+
+    return str;
 }
