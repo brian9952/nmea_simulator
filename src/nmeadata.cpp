@@ -1,5 +1,6 @@
 #include <nmeadata.h>
 #include <iostream>
+#include <sstream>
 #include <QtWidgets>
 
 nmeaData::nmeaData()
@@ -35,6 +36,32 @@ nmeaData::nmeaData()
 
 }
 
+QString nmeaData::generateChecksum(QString &str){
+    std::string temp = str.toStdString();
+    std::stringstream result;
+
+    int checksum = 0;
+    for(unsigned int i = 0; i < temp.length(); i++){
+        if(temp[i] == ',' || temp[i] == '$'){
+            continue;
+        }
+        checksum ^= int(temp[i]);
+    }
+
+    result << std::hex << checksum;
+    QString outputStr;
+    QString strChksum = QString::fromStdString(result.str()).toUpper();
+
+    if(strChksum.length() < 2)
+        strChksum.insert(0, '0');
+
+    outputStr.append("*");
+    outputStr.append(strChksum);
+    outputStr.append("\n");
+
+    return outputStr;
+}
+
 float nmeaData::roundFloat2(float val){
     float new_val = (int) (val * 100 + 0.5);
     return (float) new_val / 100;
@@ -60,14 +87,17 @@ QString nmeaData::createAAMString(){
 
     // append to str
     str.append(QString::number(roundFloat2(rand)));
-    str.append(",N,WPTNME,*43\n");
+    str.append(",N,WPTNME");
+
+    // generate checksum
+    str.append(generateChecksum(str));
 
     return str;
 }
 
 QString nmeaData::createBODString(){
     QString str;
-    str.append("$GPBOD, ");
+    str.append("$GPBOD,");
 
     // generate bdt value
     float bdt_rand = randomFloat(bod->bearingDegreesTrue_firstRange,
@@ -89,7 +119,10 @@ QString nmeaData::createBODString(){
         bdm_val.insert(0, '0');
 
     str.append(bdm_val);
-    str.append(",M,POINTB,POINTA,*52\n");
+    str.append(",M,POINTB,POINTA");
+
+    // generate checksum
+    str.append(generateChecksum(str));
 
     return str;
 }
@@ -108,7 +141,9 @@ QString nmeaData::createDPTString(){
     float maxRange_rand = randomFloat(dpt->maxRange_firstRange,
                                       dpt->maxRange_lastRange);
     str.append(QString::number(roundFloat2(maxRange_rand)));
-    str.append("*46\n");
+
+    // generate checksum
+    str.append(generateChecksum(str));
 
     return str;
 }
@@ -121,7 +156,10 @@ QString nmeaData::createROTString(){
     float rot_rand = randomFloat(rot->rateOfTurn_firstRange,
                                  rot->rateOfTurn_lastRange);
     str.append(QString::number(roundFloat2(rot_rand)));
-    str.append(",A*2B\n");
+    str.append(",A");
+
+    // generate checksum
+    str.append(generateChecksum(str));
 
     return str;
 }
@@ -141,7 +179,10 @@ QString nmeaData::createMWVString(){
                                 mwv->windSpeed_lastRange);
 
     str.append(QString::number(roundFloat2(ws_rand)));
-    str.append(",K,A*5E\n");
+    str.append(",K,A");
+
+    // generate checksum
+    str.append(generateChecksum(str));
 
     return str;
 }
@@ -162,7 +203,10 @@ QString nmeaData::createRSAString(){
                                 rsa->portRudder_lastRange);
 
     str.append(QString::number(roundFloat2(pr_rand)));
-    str.append(",A,*2B\n");
+    str.append(",A");
+
+    // generate checksum
+    str.append(generateChecksum(str));
 
     return str;
 }
@@ -176,7 +220,10 @@ QString nmeaData::createHDTString(){
                                 hdt->heading_lastRange);
 
     str.append(QString::number(roundFloat2(hd_rand)));
-    str.append(",T*03\n");
+    str.append(",T");
+
+    // generate checksum
+    str.append(generateChecksum(str));
 
     return str;
 }

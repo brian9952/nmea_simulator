@@ -87,11 +87,11 @@ public:
     QString createRSAString();
     QString createHDTString();
 
-
 private:
     float randomFloat(float a, float b);
     float roundFloat1(float val);
     float roundFloat2(float val);
+    QString generateChecksum(QString &str);
 
 };
 
