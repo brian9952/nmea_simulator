@@ -8,40 +8,45 @@ CONFIG += c++11 debug
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+INCLUDEPATH += include
+
 SOURCES += \
-    dptdialog.cpp \
-    hdtdialog.cpp \
-    main.cpp \
-    mwvdialog.cpp \
-    nmeadata.cpp \
-    mainwindow.cpp \
-    rotdialog.cpp \
-    rsadialog.cpp \
-    serialportdialog.cpp \
-    aamdialog.cpp \
-    boddialog.cpp \
-    libs/RangeSlider.cpp \
-    threads.cpp \
-    startupdialog.cpp \
+    src/main.cpp \
+    src/nmeadata.cpp \
+    src/mainwindow.cpp \
+    src/Dialogs/dptdialog.cpp \
+    src/Dialogs/hdtdialog.cpp \
+    src/Dialogs/mwvdialog.cpp \
+    src/Dialogs/rotdialog.cpp \
+    src/Dialogs/rsadialog.cpp \
+    src/Dialogs/aamdialog.cpp \
+    src/Dialogs/boddialog.cpp \
+    src/Dialogs/serialportdialog.cpp \
+    libs/RangeSlider/RangeSlider.cpp \
+    src/threads.cpp \
+    src/Dialogs/startupdialog.cpp \
 
 HEADERS += \
-    datastructs.h \
-    dptdialog.h \
-    hdtdialog.h \
-    mwvdialog.h \
-    nmeadata.h \
-    mainwindow.h \
-    rotdialog.h \
-    rsadialog.h \
-    serialportdialog.h \
-    aamdialog.h \
-    boddialog.h \
-    libs/RangeSlider.h \
-    threads.h \
-    startupdialog.h \
+    include/datastructs.h \
+    include/nmeadata.h \
+    include/mainwindow.h \
+    include/Dialogs/dptdialog.h \
+    include/Dialogs/hdtdialog.h \
+    include/Dialogs/mwvdialog.h \
+    include/Dialogs/rotdialog.h \
+    include/Dialogs/rsadialog.h \
+    include/Dialogs/aamdialog.h \
+    include/Dialogs/boddialog.h \
+    include/Dialogs/serialportdialog.h \
+    libs/RangeSlider/RangeSlider.h \
+    include/threads.h \
+    include/Dialogs/startupdialog.h \
 
-FORMS += \
-    mainwindow.ui
+DESTDIR = release
+OBJECTS_DIR = release/.obj
+MOC_DIR = release/.moc
+RCC_DIR = release/.rcc
+UI_DIR = release/.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
