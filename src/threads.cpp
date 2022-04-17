@@ -35,7 +35,8 @@ void SerialThreads::startTimer(){
 void SerialThreads::readData(){
     const QByteArray data = serial->readAll();
     QTextCodec *codec = QTextCodec::codecForName("UTF-8");
-    receiveConsole->appendPlainText(codec->toUnicode(data));
+    receiveConsole->insertPlainText(codec->toUnicode(data));
+    //receiveConsole->appendPlainText(codec->toUnicode(data));
 }
 
 void SerialThreads::openSerialPort(){

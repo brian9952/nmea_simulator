@@ -57,7 +57,7 @@ QString nmeaData::generateChecksum(QString &str){
 
     outputStr.append("*");
     outputStr.append(strChksum);
-    outputStr.append("\n");
+    outputStr.append("\r\n");
 
     return outputStr;
 }
