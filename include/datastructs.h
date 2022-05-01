@@ -17,6 +17,7 @@ struct RunningData {
     int id;
     QLabel *labelData;
     QCheckBox *checkboxData;
+    QPushButton *editButton;
     QPushButton *cancelButton;
 };
 

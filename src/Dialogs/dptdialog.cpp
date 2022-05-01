@@ -68,7 +68,7 @@ void DPTDialog::createLayout(){
     durationLayout->addWidget(durationCombobox);
 
     // buttons
-    addButton = new QPushButton(tr("Add"));
+    addButton = new QPushButton(tr("Apply"));
     cancelButton = new QPushButton(tr("Cancel"));
 
     QHBoxLayout *buttonsLayout = new QHBoxLayout;

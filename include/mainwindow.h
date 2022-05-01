@@ -48,6 +48,7 @@ private slots:
     void openNMEADialog(int i);
     void addData(int i);
     void changeDataState(int index);
+    void editRunningData(int index);
     void deleteRunningData(int index);
 
 private:
@@ -92,6 +93,7 @@ private:
     QSignalMapper *addDataMapper;
     QSignalMapper *checkboxMapper;
     QSignalMapper *durationMapper;
+    QSignalMapper *editMapper;
     QSignalMapper *cancelMapper;
 
     // data Objects
@@ -106,7 +108,17 @@ private:
 
     // ACTIONS
     // setting actions
+    QMenu *viewSubMenu;
+
+    QAction *saveConf;
+    QAction *loadConf;
+    QAction *exportLog;
     QAction *openPortDialog;
+    QAction *exitAct;
+    QAction *changeTheme;
+    QAction *changeFont;
+    QAction *programInfo;
+    QAction *viewTutor;
 
     // creation functions
     void createMenuBar();

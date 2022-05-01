@@ -41,23 +41,29 @@ void MainWindow::createMenuBar(){
     // add file menu
     fileMenu = new QMenu;
     fileMenu = menuBar->addMenu("File");
+    fileMenu->addAction(saveConf);
+    fileMenu->addAction(loadConf);
+    fileMenu->addAction(exportLog);
+    fileMenu->addAction(exitAct);
     
     // add settings menu
     settingsMenu = new QMenu;
     settingsMenu = menuBar->addMenu("Settings");
     settingsMenu->addAction(openPortDialog);
 
-    // add view menu
-    viewMenu = new QMenu;
-    viewMenu = menuBar->addMenu("View");
+    viewSubMenu = settingsMenu->addMenu("View");
+    viewSubMenu->addAction(changeTheme);
+    viewSubMenu->addAction(changeFont);
 
     // add about menu
     aboutMenu = new QMenu;
     aboutMenu = menuBar->addMenu("About");
+    aboutMenu->addAction(programInfo);
 
     // add help menu
     helpMenu = new QMenu;
     helpMenu = menuBar->addMenu("Help");
+    helpMenu->addAction(viewTutor);
 }
 
 void MainWindow::createCentralWindow(){
@@ -137,6 +143,8 @@ void MainWindow::createNMEAWidgets(){
         QLabel *label = new QLabel(data->dataStatus[i]->dataNames);
         QPushButton *button = new QPushButton(tr("Add"));
 
+        button->setFixedSize(QSize(45, 30));
+
         innerLayout->addWidget(label);
         innerLayout->addStretch();
         innerLayout->addWidget(button);
@@ -158,10 +166,49 @@ void MainWindow::createNMEAWidgets(){
 }
 
 void MainWindow::createAction(){
+    // save configuration action
+    saveConf = new QAction(tr("Save Configuration"), this);
+    saveConf->setStatusTip(tr("save current configuration"));
+    // * connect here *
+
+    // load configuration action
+    loadConf = new QAction(tr("Load Configuration"), this);
+    loadConf->setStatusTip(tr("Load configuration"));
+    // * connect here *
+
+    // save log
+    exportLog = new QAction(tr("Export Configuration"), this);
+    exportLog->setStatusTip(tr("Export Console Logs"));
+    // * connect here *
+
+    // exit action
+    exitAct = new QAction(tr("Exit"), this);
+    exitAct->setStatusTip(tr("Exit program"));
+    connect(exitAct, SIGNAL(triggered()), QApplication::instance(), SLOT(quit()));
+
     // open port settings action
     openPortDialog = new QAction(tr("Port Config"), this);
     openPortDialog->setStatusTip(tr("open port settings dialog"));
     connect(openPortDialog, SIGNAL(triggered()), this, SLOT(openPortConfigDialog()));
+
+    // view settings action
+    changeTheme = new QAction(tr("Themes"), this);
+    changeTheme->setStatusTip(tr("Change App Themes"));
+
+    changeFont = new QAction(tr("Font"), this);
+    changeFont->setStatusTip(tr("Change App Font"));
+    // * connect here *
+
+    // about action
+    programInfo = new QAction(tr("Program Info"), this);
+    programInfo->setStatusTip("View program info");
+    // * connect here *
+
+    // help action
+    viewTutor = new QAction(tr("View Tutorial"), this);
+    viewTutor->setStatusTip("View PDF Tutorial");
+    // * connect here *
+
 }
 
 void MainWindow::createConnection(){
@@ -227,7 +274,6 @@ void MainWindow::createConnection(){
     connect(addDataMapper, SIGNAL(mapped(int)),
             this, SLOT(addData(int)));
 
-
     // checkbox signal mapper
     checkboxMapper = new QSignalMapper;
     connect(checkboxMapper, SIGNAL(mapped(int)),
@@ -237,6 +283,11 @@ void MainWindow::createConnection(){
     durationMapper = new QSignalMapper;
     connect(durationMapper, SIGNAL(mapped(int)),
             this, SLOT(changeDataState(int)));
+
+    // edit button signal mapper
+    editMapper = new QSignalMapper;
+    connect(editMapper, SIGNAL(mapped(int)),
+            this, SLOT(editRunningData(int)));
 
     // cancel button signal mapper
     cancelMapper = new QSignalMapper;
@@ -394,6 +445,9 @@ void MainWindow::deleteRunningData(int index){
     // delete delete button
     delete dataFrontend[i]->cancelButton;
 
+    // delete edit button
+    delete dataFrontend[i]->editButton;
+
     dataFrontend.erase(dataFrontend.begin() + i);
 
     // send the data to threads
@@ -407,47 +461,73 @@ void MainWindow::deleteRunningData(int index){
     dataObjects[index]->dataAddButton->setEnabled(1);
 }
 
+void MainWindow::editRunningData(int index){
+    openNMEADialog(index);
+}
+
 void MainWindow::addData(int index){
-    RunningData *newObj = new RunningData;
-    QLabel *newDataLabel = new QLabel(convertAbbvr(data->dataStatus[index]->dataNames));
-    QCheckBox *newDataCheckbox = new QCheckBox();
 
-    // cancel button
-    QPushButton *newCancelButton = new QPushButton();
-    QIcon icon;
-    icon.addFile("images/cancel_icon.png");
-    newCancelButton->setIcon(icon);
-    newCancelButton->setIconSize(QSize(10, 10));
-    newCancelButton->setFixedSize(QSize(16, 16));
+    if(!data->dataStatus[index]->isAdded){
 
-    // insert layout
-    newObj->id = index;
-    newObj->labelData = newDataLabel;
-    newObj->checkboxData = newDataCheckbox;
-    newObj->cancelButton = newCancelButton;
+        RunningData *newObj = new RunningData;
+        QLabel *newDataLabel = new QLabel(convertAbbvr(data->dataStatus[index]->dataNames));
+        QCheckBox *newDataCheckbox = new QCheckBox();
 
-    // change data state
-    data->dataStatus[index]->isAdded = true;
-    data->dataStatus[index]->sec = 0;
-    connect(newObj->checkboxData, SIGNAL(stateChanged(int)), checkboxMapper, SLOT(map()));
-    checkboxMapper->setMapping(newObj->checkboxData, index);
+        // edit button
+        QPushButton *newEditButton = new QPushButton();
+        QIcon editIcon;
+        editIcon.addFile("../images/edit_icon.png");
+        newEditButton->setIcon(editIcon);
+        newEditButton->setIconSize(QSize(11, 11));
+        newEditButton->setFixedSize(QSize(16, 16));
 
-    // create cancel connection
-    connect(newObj->cancelButton, SIGNAL(clicked(bool)), cancelMapper, SLOT(map()));
-    cancelMapper->setMapping(newObj->cancelButton, index);
+        // cancel button
+        QPushButton *newCancelButton = new QPushButton();
+        QIcon deleteIcon;
+        deleteIcon.addFile("../images/cancel_icon.png");
+        newCancelButton->setIcon(deleteIcon);
+        newCancelButton->setIconSize(QSize(11, 11));
+        newCancelButton->setFixedSize(QSize(16, 16));
 
-    dataFrontend.push_back(newObj);
+        // insert layout
+        newObj->id = index;
+        newObj->labelData = newDataLabel;
+        newObj->checkboxData = newDataCheckbox;
+        newObj->editButton = newEditButton;
+        newObj->cancelButton = newCancelButton;
 
-    QHBoxLayout *newDataLayout = new QHBoxLayout;
-    newDataLayout->addWidget(newObj->labelData);
-    newDataLayout->addStretch();
-    newDataLayout->addWidget(newObj->checkboxData);
-    newDataLayout->addWidget(newObj->cancelButton);
+        // change data state
+        data->dataStatus[index]->isAdded = true;
+        data->dataStatus[index]->sec = 0;
+        connect(newObj->checkboxData, SIGNAL(stateChanged(int)), checkboxMapper, SLOT(map()));
+        checkboxMapper->setMapping(newObj->checkboxData, index);
 
-    nmeaDataLayout->insertLayout(nmeaDataLayout->count()-1, newDataLayout);
+        // create edit connection
+        connect(newObj->editButton, SIGNAL(clicked()),
+                editMapper, SLOT(map()));
+        editMapper->setMapping(newObj->editButton, index);
 
-    // disable button
-    dataObjects[index]->dataAddButton->setDisabled(1);
+        // create cancel connection
+        connect(newObj->cancelButton, SIGNAL(clicked(bool)),
+                cancelMapper, SLOT(map()));
+        cancelMapper->setMapping(newObj->cancelButton, index);
+
+        dataFrontend.push_back(newObj);
+
+
+        QHBoxLayout *newDataLayout = new QHBoxLayout;
+        newDataLayout->addWidget(newObj->labelData);
+        newDataLayout->addStretch();
+        newDataLayout->addWidget(newObj->checkboxData);
+        newDataLayout->addWidget(newObj->editButton);
+        newDataLayout->addWidget(newObj->cancelButton);
+
+        nmeaDataLayout->insertLayout(nmeaDataLayout->count()-1, newDataLayout);
+
+        // disable button
+        dataObjects[index]->dataAddButton->setDisabled(1);
+
+    }
 
     // get configs
     switch(index){

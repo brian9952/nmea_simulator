@@ -29,14 +29,14 @@ SerialThreads::SerialThreads(QPlainTextEdit *sendConsole_param,
 }
 
 void SerialThreads::startTimer(){
-    timer->start(2500);
+    timer->start(1000);
 }
 
 void SerialThreads::readData(){
     const QByteArray data = serial->readAll();
     QTextCodec *codec = QTextCodec::codecForName("UTF-8");
     receiveConsole->insertPlainText(codec->toUnicode(data));
-    //receiveConsole->appendPlainText(codec->toUnicode(data));
+    receiveConsole->ensureCursorVisible();
 }
 
 void SerialThreads::openSerialPort(){
@@ -150,7 +150,10 @@ void SerialThreads::sendData(){
                     break;
             }
             dataNum++;
-            dataObj->dataStatus[index]->sec++;
+
+            if(dataObj->dataStatus[index]->duration != -1){
+                dataObj->dataStatus[index]->sec++;
+            }
 
         }else{
             dataFrontendPtr[i]->checkboxData->setChecked(false);

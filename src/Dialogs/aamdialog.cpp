@@ -36,7 +36,7 @@ void AAMDialog::createLayout(){
     durationCombobox->addItem("Infinite");
 
     // push buttons
-    addButton = new QPushButton(tr("Add"));
+    addButton = new QPushButton(tr("Apply"));
     cancelButton = new QPushButton(tr("Cancel"));
 
     // push buttons layout

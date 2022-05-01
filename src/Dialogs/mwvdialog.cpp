@@ -52,7 +52,7 @@ void MWVDialog::createLayout(){
     durationCombobox->addItem("Infinite", QVariant(-1));
 
     // buttons
-    addButton = new QPushButton(tr("Add"));
+    addButton = new QPushButton(tr("Apply"));
     cancelButton = new QPushButton(tr("Cancel"));
 
     // wa layout
